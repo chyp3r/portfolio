@@ -23,7 +23,7 @@ export const NavBarProject = () => {
   })
   return (<Navbar expand="lg" className={scrolled ? "scrolled" : ""}>
     <Container>
-      <Navbar.Brand href='/'><p className="text-white">Main Page</p></Navbar.Brand>
+      <Navbar.Brand href='/portfolio'><p className="text-white">Main Page</p></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
