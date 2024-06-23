@@ -6,7 +6,9 @@ import { Footer } from '../comp/Footer';
 import github_icon from "../assets/icons/github.svg"
 import TrackVisibility from 'react-on-screen';
 import { ProjectPhoto } from '../comp/ProjectPhoto';
-export default function TeknofestUydu() {
+import iytteknofest24_icon from "../assets/images/teknofestiyt24/cover.jpg"
+
+export default function TeknofestYT24() {
   return (
     <div>
       <NavBarProject></NavBarProject>
@@ -16,8 +18,8 @@ export default function TeknofestUydu() {
             <TrackVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                  <span className="tagline">Teknofest Model Satellite Compettion 2024</span>
-                  <h1>{"GALACTUS"}</h1>
+                  <span className="tagline">Teknofest Humanity Technology 2024</span>
+                  <h1>{"ZİNDE BİLGE"}</h1>
                 </div>}
             </TrackVisibility>
         </Row>
@@ -30,8 +32,6 @@ export default function TeknofestUydu() {
               <Col xs={12} md={6} xl={7}>
                 <div className={""}>
                   <span className="tagline">About Project</span>
-                  <p>The Model Satellite competition, organized every year by Türksat under the umbrella of TEKNOFEST, aims to provide undergraduate and graduate engineering students with experience in the development process of a satellite and to gain interdisciplinary working skills by putting theoretical knowledge into practice.</p>
-                  <p>A model satellite is being developed for the 2024 Model Satellite competition within ACM Hacettepe.</p>
                   <p>This page will be updated as the competition progresses.</p>
                   <div className="social-icon">
                     {/* <a href="https://github.com/chyp3r"><img src={github_icon} alt="" /></a> */}
@@ -40,7 +40,7 @@ export default function TeknofestUydu() {
               </Col>
               <Col xs={12} md={6} xl={5}>
                 <div className={""}>
-                  <img src={modelteknofest_icon} className='projectpage-imgbx' />
+                  <img src={iytteknofest24_icon} className='projectpage-imgbx' />
                 </div>
               </Col>
             </Row>

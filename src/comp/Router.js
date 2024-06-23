@@ -5,7 +5,7 @@ import TeknofestUydu from '../pages/TeknofestUydu.js';
 import Enyaroyis from '../pages/Enyaroyis.js';
 import HocusFocus from '../pages/HocusFocus.js';
 import LostSpell from '../pages/LostSpell.js';
-import ProjectQ from '../pages/ProjectQ.js';
+import AlZCUR from '../pages/ALZCUR.js';
 import Vitabyte from '../pages/Vitabyte.js';
 import Raf from '../pages/RAF.js';
 import DeneyapAi from "../pages/DeneyapAi.js"
@@ -21,19 +21,28 @@ import DeneyapRobotic from '../pages/DeneyapRobotic.js';
 import DeneyapSoftware from '../pages/DeneyapSoftware.js';
 import QuantumShift from '../pages/QuantumShift.js';
 import BBM103 from '../pages/BBM103.js';
-import { lazy } from 'react';
+import BBM104 from '../pages/BBM104.js';
+
+import TeknofestYT24 from '../pages/TeknofestIYT24.js';
+import TeknofestPsikoloji24 from '../pages/TeknofestPsikoloji24.js';
+import TeknofestSaglik24 from '../pages/TeknofestSaglik24.js';
+import TeknofestUlasim24 from '../pages/TeknofestUlasim24.js';
 
 export const MyRouter = () => {
     return(
     <Routes>
         <Route path="" element={<Home></Home>} />
-        <Route path="projects/teknofestai23" element={<TeknofestSaglik></TeknofestSaglik>} />
+        <Route path="projects/teknofesthealthai23" element={<TeknofestSaglik></TeknofestSaglik>} />
         <Route path="projects/teknofestsatelite24" element={<TeknofestUydu></TeknofestUydu>} />
+        <Route path="projects/teknofesthuman24" element={<TeknofestYT24></TeknofestYT24>} />
+        <Route path="projects/teknofestpsychology24" element={<TeknofestPsikoloji24></TeknofestPsikoloji24>} />
+        <Route path="projects/teknofesttrasportationai24" element={<TeknofestUlasim24></TeknofestUlasim24>} />
+        <Route path="projects/teknofesthealth24" element={<TeknofestSaglik24></TeknofestSaglik24>} />
         <Route path="projects/enyaroyis" element={<Enyaroyis></Enyaroyis>} />
         <Route path="projects/quantumshift" element={<QuantumShift></QuantumShift>} />
         <Route path="projects/hocusfocus" element={<HocusFocus></HocusFocus>} />
         <Route path="projects/lostspell" element={<LostSpell></LostSpell>} />
-        <Route path="projects/projectq" element={<ProjectQ></ProjectQ>} />
+        <Route path="/projects/alzcur" element={<AlZCUR></AlZCUR>} />
         <Route path="projects/vitabyte" element={<Vitabyte></Vitabyte>} />
         <Route path="projects/raf" element={<Raf></Raf>} />
         <Route path="deneyap/ai" element={<DeneyapAi></DeneyapAi>} />
@@ -48,6 +57,8 @@ export const MyRouter = () => {
         <Route path="deneyap/mobilapp" element={<DeneyapMobil></DeneyapMobil>} />
         <Route path="deneyap/design" element={<DeneyapDesign></DeneyapDesign>} />
         <Route path="bbm/103" element={<BBM103></BBM103>} />
+        <Route path="bbm/104" element={<BBM104></BBM104>} />
+
     </Routes>
     );
 }

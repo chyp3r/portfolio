@@ -2,6 +2,10 @@ import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import { ProjectCard } from "./ProjectCard";
 import TrackVisibility from 'react-on-screen';
 import saglikteknofest_icon from "../assets/images/teknofestsaglik.jpg"
+import saglikteknofest24_icon from "../assets/images/teknofestsaglik24/cover.jpg"
+import iytteknofest24_icon from "../assets/images/teknofestiyt24/cover.jpg"
+import psiteknofest24_icon from "../assets/images/teknofest24ps/cover.jpg"
+import ulasimteknofest24_icon from "../assets/images/teknofestulasim24/cover.jpg"
 import hocusfocus_icon from "../assets/images/hocusfocus.png"
 import enyaroyis_icon from "../assets/images/enyaroyis.jpg"
 import chatbot_icon from "../assets/images/chatbot.png"
@@ -12,20 +16,40 @@ import lostspell_icon from "../assets/images/lostspell.png"
 import vitabyte_icon from "../assets/images/V1.png"
 import quantum_icon from "../assets/images/quantumlogo.jpg"
 import hü_icon from "../assets/images/hü.jpg"
-import qs from "../assets/images/q.png"
+import qs from "../assets/images/alzcur.png"
 
 export const Projects = () => {
 
   const projects1 = [
     {
       title: "Teknofest Artificial Intelligence in Health 2023",
-      description: "/projects/teknofestai23",
+      description: "/projects/teknofesthealthai23",
       imgUrl: saglikteknofest_icon,
     },
     {
       title: "Teknofest Model Satellite 2024",
       description: "/projects/teknofestsatelite24",
       imgUrl: modelteknofest_icon,
+    },
+    {
+      title: "Teknofest Humanity Technology 2024",
+      description: "/projects/teknofesthuman24",
+      imgUrl: iytteknofest24_icon,
+    },
+    {
+      title: "Teknofest Psychology Technology 2024",
+      description: "/projects/teknofestpsychology24",
+      imgUrl: psiteknofest24_icon,
+    },
+    {
+      title: "Teknofest Artificial Intelligence in Transportation 2024",
+      description: "/projects/teknofesttrasportationai24",
+      imgUrl: ulasimteknofest24_icon,
+    },
+    {
+      title: "Teknofest Artificial Intelligence in Health 2024",
+      description: "/projects/teknofesthealth24",
+      imgUrl: saglikteknofest24_icon,
     },
     {
       title: "Hocus Focus",
@@ -61,8 +85,8 @@ export const Projects = () => {
 
     },
     {
-      title: "Project Q",
-      description: "/projects/projectq",
+      title: "ALZCUR",
+      description: "/projects/alzcur",
       imgUrl: qs,
     },
     {
@@ -139,6 +163,11 @@ export const Projects = () => {
     {
       title: "BBM-103",
       description: "/bbm/103",
+      imgUrl: hü_icon,
+    },
+    {
+      title: "BBM-104",
+      description: "/bbm/104",
       imgUrl: hü_icon,
     },
   ];
