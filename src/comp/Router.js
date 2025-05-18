@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from "../pages/Home.js"
 import TeknofestSaglik from '../pages/TeknofestSaglik.js';
-import TeknofestUydu from '../pages/TeknofestUydu.js';
+import TeknofestKKTC25 from '../pages/TeknofestKKTC25.js';
 import Enyaroyis from '../pages/Enyaroyis.js';
 import HocusFocus from '../pages/HocusFocus.js';
 import LostSpell from '../pages/LostSpell.js';
@@ -23,19 +23,24 @@ import QuantumShift from '../pages/QuantumShift.js';
 import BBM103 from '../pages/BBM103.js';
 import BBM104 from '../pages/BBM104.js';
 
-import TeknofestYT24 from '../pages/TeknofestIYT24.js';
-import TeknofestPsikoloji24 from '../pages/TeknofestPsikoloji24.js';
 import TeknofestSaglik24 from '../pages/TeknofestSaglik24.js';
 import TeknofestUlasim24 from '../pages/TeknofestUlasim24.js';
+import CBRN from '../pages/CBRN.js';
+import TeknofestSaglik25 from '../pages/TeknofestSaglik25.js';
+import BBM203 from '../pages/BBM203.js';
+import BBM204 from '../pages/BBM204.js';
+
+import KF24 from '../pages/KF24.js';
 
 export const MyRouter = () => {
     return(
     <Routes>
         <Route path="" element={<Home></Home>} />
+        <Route path="projects/kf24" element={<KF24></KF24>} />
         <Route path="projects/teknofesthealthai23" element={<TeknofestSaglik></TeknofestSaglik>} />
-        <Route path="projects/teknofestsatelite24" element={<TeknofestUydu></TeknofestUydu>} />
-        <Route path="projects/teknofesthuman24" element={<TeknofestYT24></TeknofestYT24>} />
-        <Route path="projects/teknofestpsychology24" element={<TeknofestPsikoloji24></TeknofestPsikoloji24>} />
+        <Route path="projects/kktc25" element={<TeknofestKKTC25></TeknofestKKTC25>} />
+        <Route path="projects/teknofesthealthai25" element={<TeknofestSaglik25></TeknofestSaglik25>} />
+        <Route path="projects/cbrn" element={<CBRN></CBRN>} />
         <Route path="projects/teknofesttrasportationai24" element={<TeknofestUlasim24></TeknofestUlasim24>} />
         <Route path="projects/teknofesthealth24" element={<TeknofestSaglik24></TeknofestSaglik24>} />
         <Route path="projects/enyaroyis" element={<Enyaroyis></Enyaroyis>} />
@@ -58,7 +63,9 @@ export const MyRouter = () => {
         <Route path="deneyap/design" element={<DeneyapDesign></DeneyapDesign>} />
         <Route path="bbm/103" element={<BBM103></BBM103>} />
         <Route path="bbm/104" element={<BBM104></BBM104>} />
-
+        <Route path="bbm/203" element={<BBM203></BBM203>} />
+        <Route path="bbm/204" element={<BBM204></BBM204>} />
+        
     </Routes>
     );
 }

@@ -6,11 +6,8 @@ import github_icon from "../assets/icons/github.svg"
 import TrackVisibility from 'react-on-screen';
 import { ProjectPhoto } from '../comp/ProjectPhoto';
 import saglikteknofest24_icon from "../assets/images/teknofestsaglik24/cover.jpg"
-import photo1 from "../assets/images/teknofest24ai/1.png"
-import photo2 from "../assets/images/teknofest24ai/2.jpg"
-import photo3 from "../assets/images/teknofest24ai/3.jpg"
-import photo4 from "../assets/images/teknofest24ai/4.jpg"
-export default function TeknofestSaglik24() {
+
+export default function TeknofestSaglik25() {
   return (
     <div>
       <NavBarProject></NavBarProject>
@@ -20,8 +17,8 @@ export default function TeknofestSaglik24() {
             <TrackVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                  <span className="tagline">Teknofest Artificial Intelligence in Health Compettion 2024</span>
-                  <h1>{"ASCLEPIIUS"}</h1>
+                  <span className="tagline">Teknofest Artificial Intelligence in Health Compettion 2025</span>
+                  <h1>{"ASCLEPIIIUS"}</h1>
                 </div>}
             </TrackVisibility>
         </Row>
@@ -34,15 +31,9 @@ export default function TeknofestSaglik24() {
               <Col xs={12} md={6} xl={7}>
                 <div className={""}>
                   <span className="tagline">About Project</span>
-
-<p>As the team lead and computer vision developer of the ASCLEPIIUS project, I contributed to the development of an AI-powered system for breast cancer analysis using both medical imaging and radiology reports. The project featured a YOLOv8 and BART-based architecture for BI-RADS and calcification classification, as well as an LSTM model for Named Entity Recognition (NER) in radiology reports.</p>
-
-<p>Our team was awarded the <strong>Best Presentation Award</strong> at the national finals held across Türkiye. In addition, we achieved <strong>3rd place in Türkiye</strong> for the analysis report phase of the Teknofest 2024 Artificial Intelligence in Health competition, with a 0.55 mAP and 0.95 F1 score.</p>
-
-<p>The project was developed using Python, leveraging libraries such as PyTorch and Albumentations for model training and data augmentation.</p>
-
+                  <p>This page will be updated as the competition progresses.</p>
                   <div className="social-icon">
-                    <a href="https://cdn.t3kys.com/media/upload/user_form_upload/2024/3/31/fuGk0ekXGPUsoRe0d9L2f2ICrWk5GxjJ.pdf"><img src={github_icon} alt="" /></a>
+                    {/* <a href="https://github.com/chyp3r"><img src={github_icon} alt="" /></a> */}
                   </div>
                 </div>
               </Col>
@@ -55,7 +46,7 @@ export default function TeknofestSaglik24() {
           </div>
         </Container>
       </section>
-      <ProjectPhoto photo1={photo1} photo2={photo2} photo3={photo3} photo4={photo4} count={2}></ProjectPhoto>
+      {/* <ProjectPhoto></ProjectPhoto> */}
       <Footer></Footer>
     </div>
   )

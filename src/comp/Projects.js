@@ -1,55 +1,60 @@
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import { ProjectCard } from "./ProjectCard";
 import TrackVisibility from 'react-on-screen';
-import saglikteknofest_icon from "../assets/images/teknofestsaglik.jpg"
 import saglikteknofest24_icon from "../assets/images/teknofestsaglik24/cover.jpg"
-import iytteknofest24_icon from "../assets/images/teknofestiyt24/cover.jpg"
-import psiteknofest24_icon from "../assets/images/teknofest24ps/cover.jpg"
+import psiteknofest24_icon from "../assets/images/cbrn.png"
 import ulasimteknofest24_icon from "../assets/images/teknofestulasim24/cover.jpg"
 import hocusfocus_icon from "../assets/images/hocusfocus.png"
 import enyaroyis_icon from "../assets/images/enyaroyis.jpg"
 import chatbot_icon from "../assets/images/chatbot.png"
 import deneyap_projects_icon from "../assets/images/deneyap.png"
-import modelteknofest_icon from "../assets/images/model.jpg"
+import kktc25 from "../assets/images/kktc25.jpg"
 import website_icon from "../assets/images/alien-planet-bg.jpg"
 import lostspell_icon from "../assets/images/lostspell.png"
 import vitabyte_icon from "../assets/images/V1.png"
 import quantum_icon from "../assets/images/quantumlogo.jpg"
 import hü_icon from "../assets/images/hü.jpg"
 import qs from "../assets/images/alzcur.png"
+import kf_icon from "../assets/images/kf.png"
 
 export const Projects = () => {
 
   const projects1 = [
     {
+      title: "Hacettepe Career Fair 2024",
+      description: "/projects/kf24",
+      imgUrl: kf_icon,
+    },
+    {
+      title: "Teknofest Artificial Intelligence in Health 2025",
+      description: "/projects/teknofesthealthai25",
+      imgUrl: saglikteknofest24_icon,
+    },
+    {
+      title: "Teknofest Artificial Intelligence in Health 2024",
+      description: "/projects/teknofesthealth24",
+      imgUrl: saglikteknofest24_icon,
+    },
+    {
       title: "Teknofest Artificial Intelligence in Health 2023",
       description: "/projects/teknofesthealthai23",
-      imgUrl: saglikteknofest_icon,
+      imgUrl: saglikteknofest24_icon,
     },
     {
-      title: "Teknofest Model Satellite 2024",
-      description: "/projects/teknofestsatelite24",
-      imgUrl: modelteknofest_icon,
+      title: "Teknofest KKTC 2025",
+      description: "/projects/kktc25",
+      imgUrl: kktc25,
     },
+
     {
-      title: "Teknofest Humanity Technology 2024",
-      description: "/projects/teknofesthuman24",
-      imgUrl: iytteknofest24_icon,
-    },
-    {
-      title: "Teknofest Psychology Technology 2024",
-      description: "/projects/teknofestpsychology24",
+      title: "VR Based Education Platform",
+      description: "/projects/cbrn",
       imgUrl: psiteknofest24_icon,
     },
     {
       title: "Teknofest Artificial Intelligence in Transportation 2024",
       description: "/projects/teknofesttrasportationai24",
       imgUrl: ulasimteknofest24_icon,
-    },
-    {
-      title: "Teknofest Artificial Intelligence in Health 2024",
-      description: "/projects/teknofesthealth24",
-      imgUrl: saglikteknofest24_icon,
     },
     {
       title: "Hocus Focus",
@@ -168,6 +173,16 @@ export const Projects = () => {
     {
       title: "BBM-104",
       description: "/bbm/104",
+      imgUrl: hü_icon,
+    },
+    {
+      title: "BBM-203",
+      description: "/bbm/203",
+      imgUrl: hü_icon,
+    },
+    {
+      title: "BBM-204",
+      description: "/bbm/204",
       imgUrl: hü_icon,
     },
   ];

@@ -13,7 +13,7 @@ export const Footer = () => {
               <a href="#"></a>
               <a href="#"></a>
             </div> */}
-            <p>Copyright 2023. All Rights Reserved</p>
+            <p>Copyright 2025. All Rights Reserved</p>
           </Col>
         </Row>
       </Container>

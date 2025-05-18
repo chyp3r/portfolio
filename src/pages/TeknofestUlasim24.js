@@ -32,9 +32,15 @@ export default function TeknofestUlasim24() {
               <Col xs={12} md={6} xl={7}>
                 <div className={""}>
                   <span className="tagline">About Project</span>
-                  <p>This page will be updated as the competition progresses.</p>
+
+<p>In the Han-Yolo project, I worked as a computer vision developer focusing on enhancing real-time object detection capabilities for aerial images captured by drone cameras. The core of the system was built on an optimized <strong>YOLOv8 architecture</strong>, tailored for detecting objects in high-resolution drone footage under varying environmental conditions.</p>
+
+<p>One of the key innovations in this project was the use of a <strong>SLAM (Simultaneous Localization and Mapping)</strong> approach to determine object positions using only visual data — without relying on GPS. This made the system more adaptable and effective in GPS-denied or constrained environments, such as disaster zones or military applications.</p>
+
+<p>The AI pipeline was implemented using a combination of <strong>PyTorch</strong> and <strong>TensorFlow</strong>, while tools like <strong>Roboflow</strong> were used for data preprocessing and augmentation. Development and training processes were carried out in a <strong>WSL (Windows Subsystem for Linux)</strong> environment to ensure compatibility and performance.</p>
+
                   <div className="social-icon">
-                    {/* <a href="https://github.com/chyp3r"><img src={github_icon} alt="" /></a> */}
+                    <a href="https://cdn.t3kys.com/media/upload/user_form_upload/2024/4/30/GzZXlFg468vZwhN4yjOcWCP1ng3z9hMf.pdf"><img src={github_icon} alt="" /></a>
                   </div>
                 </div>
               </Col>
