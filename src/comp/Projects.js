@@ -17,10 +17,16 @@ import hü_icon from "../assets/images/hü.jpg"
 import qs from "../assets/images/alzcur.png"
 import kf_icon from "../assets/images/kf.png"
 import filmora_icon from "../assets/images/filmora/Resim1.png"
+import odak_icon from "../assets/images/odak/odak.png"
 
 export const Projects = () => {
 
   const projects1 = [
+    {
+      title: "ODAK",
+      description: "/projects/odak",
+      imgUrl: odak_icon,
+    },
     {
       title: "Hacettepe Career Fair 2025",
       description: "/projects/kf24",

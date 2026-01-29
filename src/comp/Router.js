@@ -33,6 +33,7 @@ import BBM409 from '../pages/BBM409.js';
 
 import KF24 from '../pages/KF24.js';
 import Filmora from '../pages/Filmora.js';
+import ODAK from '../pages/Odak.js';
 
 export const MyRouter = () => {
     return(
@@ -41,7 +42,7 @@ export const MyRouter = () => {
         <Route path="projects/kf24" element={<KF24></KF24>} />
         <Route path="projects/teknofesthealthai23" element={<TeknofestSaglik></TeknofestSaglik>} />
         <Route path="projects/filmora" element={<Filmora></Filmora>} />
-
+        <Route path="projects/odak" element={<ODAK></ODAK>} />
         <Route path="projects/kktc25" element={<TeknofestKKTC25></TeknofestKKTC25>} />
         <Route path="projects/teknofesthealthai25" element={<TeknofestSaglik25></TeknofestSaglik25>} />
         <Route path="projects/cbrn" element={<CBRN></CBRN>} />
