@@ -1,12 +1,14 @@
 {
   "files": {
     "main.css": "/portfolio/static/css/main.4e9a855c.css",
-    "main.js": "/portfolio/static/js/main.ac486616.js",
+    "main.js": "/portfolio/static/js/main.6035ae09.js",
     "static/js/787.576ec513.chunk.js": "/portfolio/static/js/787.576ec513.chunk.js",
     "static/media/hubg.png": "/portfolio/static/media/hubg.367eec3d3fcd6664e42b.png",
     "static/media/projectbg.png": "/portfolio/static/media/projectbg.8e681e1a9d7e60afabc8.png",
     "static/media/deneyapbg.png": "/portfolio/static/media/deneyapbg.54749416ad01d4126835.png",
     "static/media/1.png": "/portfolio/static/media/1.6f5ff2d9f4e8d3f3be26.png",
+    "static/media/2.png": "/portfolio/static/media/2.2e0466cef7a492fbe5d7.png",
+    "static/media/6.png": "/portfolio/static/media/6.6890804e8bb5fa73b0f7.png",
     "static/media/cover.jpg": "/portfolio/static/media/cover.c968e8d53d28b3eac4d4.jpg",
     "static/media/enyaroyis1.png": "/portfolio/static/media/enyaroyis1.aadef87c2c3388fdd60d.png",
     "static/media/lostspell.png": "/portfolio/static/media/lostspell.e858cfb840a2a02e97a0.png",
@@ -22,16 +24,17 @@
     "static/media/hocusfocus.png": "/portfolio/static/media/hocusfocus.ad71cfb73485e962699e.png",
     "static/media/2.jpg": "/portfolio/static/media/2.91d476b7a4c9f9e9ace4.jpg",
     "static/media/4.jpg": "/portfolio/static/media/4.fe5b44b3ee47ea9c9458.jpg",
-    "static/media/2.png": "/portfolio/static/media/2.2e0466cef7a492fbe5d7.png",
     "static/media/3.jpg": "/portfolio/static/media/3.91c3ba85f22c0db1cd03.jpg",
     "static/media/4.png": "/portfolio/static/media/4.b2edea615db8c4ee6a5c.png",
     "static/media/3.png": "/portfolio/static/media/3.ee273315e7098400625b.png",
     "static/media/deneyap.png": "/portfolio/static/media/deneyap.00d06072334ee9315f66.png",
+    "static/media/5.png": "/portfolio/static/media/5.1709068ff36e329463de.png",
     "static/media/teknofestsaglik.jpg": "/portfolio/static/media/teknofestsaglik.8738c2c19112aa7d4869.jpg",
     "static/media/alien-planet.png": "/portfolio/static/media/alien-planet.5aacc8b2fedf17d3369c.png",
     "static/media/bg3.jpg": "/portfolio/static/media/bg3.5a25cae400d225e44a96.jpg",
     "static/media/alzcur.png": "/portfolio/static/media/alzcur.9f7e0b54d56ec833296e.png",
     "static/media/ai23-3.png": "/portfolio/static/media/ai23-3.388eef36ad49615189ea.png",
+    "static/media/Resim1.png": "/portfolio/static/media/Resim1.bb146da1493a73f34b81.png",
     "static/media/V1.png": "/portfolio/static/media/V1.9f772b76677446b1473c.png",
     "static/media/googleplaystore.png": "/portfolio/static/media/googleplaystore.4b3562521ac5e54e18a5.png",
     "static/media/model.jpg": "/portfolio/static/media/model.b05f710c4861e88e5923.jpg",
@@ -69,11 +72,11 @@
     "index.html": "/portfolio/index.html",
     "static/media/pytorch.svg": "/portfolio/static/media/pytorch.8653d1d6d7ba93c4c4ed583bbd51fb99.svg",
     "main.4e9a855c.css.map": "/portfolio/static/css/main.4e9a855c.css.map",
-    "main.ac486616.js.map": "/portfolio/static/js/main.ac486616.js.map",
+    "main.6035ae09.js.map": "/portfolio/static/js/main.6035ae09.js.map",
     "787.576ec513.chunk.js.map": "/portfolio/static/js/787.576ec513.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4e9a855c.css",
-    "static/js/main.ac486616.js"
+    "static/js/main.6035ae09.js"
   ]
 }
