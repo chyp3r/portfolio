@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/portfolio/static/css/main.4e9a855c.css",
-    "main.js": "/portfolio/static/js/main.6035ae09.js",
+    "main.js": "/portfolio/static/js/main.517e0e77.js",
     "static/js/787.576ec513.chunk.js": "/portfolio/static/js/787.576ec513.chunk.js",
     "static/media/hubg.png": "/portfolio/static/media/hubg.367eec3d3fcd6664e42b.png",
     "static/media/projectbg.png": "/portfolio/static/media/projectbg.8e681e1a9d7e60afabc8.png",
@@ -22,9 +22,9 @@
     "static/media/chatbot.png": "/portfolio/static/media/chatbot.a36b3b48d913a526b741.png",
     "static/media/hocusfocus4.png": "/portfolio/static/media/hocusfocus4.f78d42561facf4197490.png",
     "static/media/hocusfocus.png": "/portfolio/static/media/hocusfocus.ad71cfb73485e962699e.png",
-    "static/media/2.jpg": "/portfolio/static/media/2.91d476b7a4c9f9e9ace4.jpg",
-    "static/media/4.jpg": "/portfolio/static/media/4.fe5b44b3ee47ea9c9458.jpg",
-    "static/media/3.jpg": "/portfolio/static/media/3.91c3ba85f22c0db1cd03.jpg",
+    "static/media/2.jpg": "/portfolio/static/media/2.75e6cd3d871d75352933.jpg",
+    "static/media/4.jpg": "/portfolio/static/media/4.021f41971f5214a5f5ac.jpg",
+    "static/media/3.jpg": "/portfolio/static/media/3.801934035d2b73d88377.jpg",
     "static/media/4.png": "/portfolio/static/media/4.b2edea615db8c4ee6a5c.png",
     "static/media/3.png": "/portfolio/static/media/3.ee273315e7098400625b.png",
     "static/media/deneyap.png": "/portfolio/static/media/deneyap.00d06072334ee9315f66.png",
@@ -39,6 +39,7 @@
     "static/media/googleplaystore.png": "/portfolio/static/media/googleplaystore.4b3562521ac5e54e18a5.png",
     "static/media/model.jpg": "/portfolio/static/media/model.b05f710c4861e88e5923.jpg",
     "static/media/vitabyte1.png": "/portfolio/static/media/vitabyte1.436b5f8f239991e7e2df.png",
+    "static/media/odak.png": "/portfolio/static/media/odak.31aaeb43e61f0bda1f6e.png",
     "static/media/kktc25.jpg": "/portfolio/static/media/kktc25.a7bff56af40889953c17.jpg",
     "static/media/enyaroyis.jpg": "/portfolio/static/media/enyaroyis.7633996cf9c3fe1022d2.jpg",
     "static/media/vitabyte4.png": "/portfolio/static/media/vitabyte4.517c12821277c52d6f42.png",
@@ -46,6 +47,7 @@
     "static/media/alien-planet-bg.jpg": "/portfolio/static/media/alien-planet-bg.c3b4d5ce8c3b3b684055.jpg",
     "static/media/vitabyte3.png": "/portfolio/static/media/vitabyte3.37adcabdc3c6a8d904c7.png",
     "static/media/kf.png": "/portfolio/static/media/kf.b068276b31dd1713ecc2.png",
+    "static/media/1.jpg": "/portfolio/static/media/1.324a18b199d15f8cceda.jpg",
     "static/media/enyaroyis3.png": "/portfolio/static/media/enyaroyis3.ca14be91fc6f02c37973.png",
     "static/media/vitabyte2.png": "/portfolio/static/media/vitabyte2.cea030f4284e2fd03c12.png",
     "static/media/enyaroyis4.png": "/portfolio/static/media/enyaroyis4.fc38c935f726065514af.png",
@@ -72,11 +74,11 @@
     "index.html": "/portfolio/index.html",
     "static/media/pytorch.svg": "/portfolio/static/media/pytorch.8653d1d6d7ba93c4c4ed583bbd51fb99.svg",
     "main.4e9a855c.css.map": "/portfolio/static/css/main.4e9a855c.css.map",
-    "main.6035ae09.js.map": "/portfolio/static/js/main.6035ae09.js.map",
+    "main.517e0e77.js.map": "/portfolio/static/js/main.517e0e77.js.map",
     "787.576ec513.chunk.js.map": "/portfolio/static/js/787.576ec513.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4e9a855c.css",
-    "static/js/main.6035ae09.js"
+    "static/js/main.517e0e77.js"
   ]
 }
