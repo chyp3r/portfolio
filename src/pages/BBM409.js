@@ -1,12 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NavBarProject } from '../comp/NavBarProject'
 import { Container, Row, Col } from "react-bootstrap";
-import java_icon from "../assets/icons/java.svg"
+import pytorch_icon from "../assets/icons/pytorch.svg"
 import { Footer } from '../comp/Footer';
 import github_icon from "../assets/icons/github.svg"
 import TrackVisibility from 'react-on-screen';
-import { ProjectPhoto } from '../comp/ProjectPhoto';
-export default function BBM204() {
+export default function BBM409() {
   return (
     <div>
       <NavBarProject></NavBarProject>
@@ -16,8 +15,8 @@ export default function BBM204() {
             <TrackVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                  <span className="tagline">Software Laboratory 2</span>
-                  <h1>{`BBM 204`}</h1>
+                  <span className="tagline">Machine Learning Laboratory</span>
+                  <h1>{`BBM 409`}</h1>
                 </div>}
             </TrackVisibility>
           </Row>
@@ -30,19 +29,19 @@ export default function BBM204() {
               <Col xs={12} md={6} xl={7}>
                 <div className={""}>
                   <span className="tagline">About Lesson</span>
-                  <p>Basic concepts of algorithms. Asymptotic notation, performance measurement, space/time complexity. Recursive algorithms, recursive relations, introduction to the concept of algorithm analysis. Binary search tree, recursive and iterative binary tree traversals. Graphs, depth/breadth first search, spanning trees, shortest path problem, activity on vertex/edge networks. Selection, insertion, bubble, counting, quick, merge, heap, radix sorting algorithms and their analysis.</p>
-<p>The laboratory includes three or more practical assignments. The students are expected to present a well-designed documentary report with their assignments. Compilers, package programs and recent IDEs (Integrated Development Environments) are utilized in this laboratory.
+                  <p>This course establishes a strong foundation in supervised learning, primarily focusing on a wide array of classification and regression techniques. It progresses from classical algorithms—such as Support Vector Machines (SVMs), logistic regression, and Gaussian discriminant analysis—to advanced deep learning architectures, including Neural Networks, Convolutional Neural Networks (CNNs), and ensemble methods like boosting.</p>
+<p>The curriculum also covers essential statistical and unsupervised learning concepts designed to analyze underlying data structures. Key topics include density estimation via Maximum Likelihood Estimation (MLE), dimensionality reduction using Principal Component Analysis (PCA), and data grouping techniques through k-means clustering.
                   </p>
                   <p>When the course ends, the source codes of all assignments will be added to Github.</p>
                   <div className="social-icon">
-                    <a href="https://github.com/chyp3r/HUCS-BBM204"><img src={github_icon} alt="" /></a>
+                    <a href="https://github.com/chyp3r/HUCS-BBM409"><img src={github_icon} alt="" /></a>
                   </div>
                   <div className='space'></div>
                 </div>
               </Col>
               <Col xs={12} md={6} xl={5}>
                 <div className={""}>
-                  <img src={java_icon} className='projectpage-imgbx' />
+                  <img src={pytorch_icon} className='projectpage-imgbx' />
                 </div>
               </Col>
             </Row>

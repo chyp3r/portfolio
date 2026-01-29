@@ -16,28 +16,34 @@ import quantum_icon from "../assets/images/quantumlogo.jpg"
 import hü_icon from "../assets/images/hü.jpg"
 import qs from "../assets/images/alzcur.png"
 import kf_icon from "../assets/images/kf.png"
+import filmora_icon from "../assets/images/filmora/Resim1.png"
 
 export const Projects = () => {
 
   const projects1 = [
     {
-      title: "Hacettepe Career Fair 2024",
+      title: "Hacettepe Career Fair 2025",
       description: "/projects/kf24",
       imgUrl: kf_icon,
-    },
-    {
-      title: "Teknofest Artificial Intelligence in Health 2025",
-      description: "/projects/teknofesthealthai25",
-      imgUrl: saglikteknofest24_icon,
     },
     {
       title: "Teknofest Artificial Intelligence in Health 2024",
       description: "/projects/teknofesthealth24",
       imgUrl: saglikteknofest24_icon,
     },
+      {
+      title: "Filmora",
+      description: "/projects/filmora",
+      imgUrl: filmora_icon,
+    },
     {
       title: "Teknofest Artificial Intelligence in Health 2023",
       description: "/projects/teknofesthealthai23",
+      imgUrl: saglikteknofest24_icon,
+    },
+        {
+      title: "Teknofest Artificial Intelligence in Health 2025",
+      description: "/projects/teknofesthealthai25",
       imgUrl: saglikteknofest24_icon,
     },
     {
@@ -185,6 +191,11 @@ export const Projects = () => {
       description: "/bbm/204",
       imgUrl: hü_icon,
     },
+     {
+      title: "BBM-409",
+      description: "/bbm/409",
+      imgUrl: hü_icon,
+    }
   ];
   return (
     <section className="project" id="projects">

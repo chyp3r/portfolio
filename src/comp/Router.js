@@ -29,8 +29,10 @@ import CBRN from '../pages/CBRN.js';
 import TeknofestSaglik25 from '../pages/TeknofestSaglik25.js';
 import BBM203 from '../pages/BBM203.js';
 import BBM204 from '../pages/BBM204.js';
+import BBM409 from '../pages/BBM409.js';
 
 import KF24 from '../pages/KF24.js';
+import Filmora from '../pages/Filmora.js';
 
 export const MyRouter = () => {
     return(
@@ -38,6 +40,8 @@ export const MyRouter = () => {
         <Route path="" element={<Home></Home>} />
         <Route path="projects/kf24" element={<KF24></KF24>} />
         <Route path="projects/teknofesthealthai23" element={<TeknofestSaglik></TeknofestSaglik>} />
+        <Route path="projects/filmora" element={<Filmora></Filmora>} />
+
         <Route path="projects/kktc25" element={<TeknofestKKTC25></TeknofestKKTC25>} />
         <Route path="projects/teknofesthealthai25" element={<TeknofestSaglik25></TeknofestSaglik25>} />
         <Route path="projects/cbrn" element={<CBRN></CBRN>} />
@@ -65,7 +69,7 @@ export const MyRouter = () => {
         <Route path="bbm/104" element={<BBM104></BBM104>} />
         <Route path="bbm/203" element={<BBM203></BBM203>} />
         <Route path="bbm/204" element={<BBM204></BBM204>} />
-        
+        <Route path="bbm/409" element={<BBM409></BBM409>} />
     </Routes>
     );
 }

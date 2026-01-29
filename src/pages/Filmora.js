@@ -5,9 +5,12 @@ import { Footer } from '../comp/Footer';
 import github_icon from "../assets/icons/github.svg"
 import TrackVisibility from 'react-on-screen';
 import { ProjectPhoto } from '../comp/ProjectPhoto';
-import saglikteknofest24_icon from "../assets/images/teknofestsaglik24/cover.jpg"
-
-export default function TeknofestSaglik25() {
+import saglikteknofest24_icon from "../assets/images/filmora/Resim1.png"
+import photo1 from "../assets/images/filmora/1.png"
+import photo2 from "../assets/images/filmora/2.png"
+import photo3 from "../assets/images/filmora/5.png"
+import photo4 from "../assets/images/filmora/6.png"
+export default function Filmora() {
   return (
     <div>
       <NavBarProject></NavBarProject>
@@ -17,8 +20,8 @@ export default function TeknofestSaglik25() {
             <TrackVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                  <span className="tagline">Teknofest Artificial Intelligence in Health Compettion 2025</span>
-                  <h1>{"ASCLEPIIIUS"}</h1>
+                  <span className="tagline">Future of the Movies</span>
+                  <h1>{"Filmora"}</h1>
                 </div>}
             </TrackVisibility>
         </Row>
@@ -31,11 +34,13 @@ export default function TeknofestSaglik25() {
               <Col xs={12} md={6} xl={7}>
                 <div className={""}>
                   <span className="tagline">About Project</span>
-                  <p>As the team lead and computer vision developer of the ASCLEPIIIUS project, I contributed to the development of an AI-powered system for stroke detection and classification using Computer Tomography (CT) images. The project featured a hybrid ensemble architecture combining Vision Transformers (ViT) for global context understanding and Self-Organized Operational Neural Networks (SelfONN) to model non-linear relationships effectively.</p>
-                  <p>Our model achieved a 0.91 F1 score on external validation sets, significantly outperforming traditional methods. This success was driven by the implementation of custom data augmentation strategies such as specialized CutMix, Mosaic Augmentation, and Transparency techniques alongside advanced pre-processing algorithms.</p>
-                  <p>The project was developed using Python, leveraging deep learning techniques for model training and automated Region of Interest detection</p>
+
+<p>Developed during the OBSS 2025 Codecamp internship, Filmora is an iOS application designed for seamless movie discovery and interactive AI conversation. Built on the MVVM architecture, the app leverages the TMDB API to fetch extensive movie data—including Hero showcases, popular charts, and detailed cast information—while utilizing Moya for robust networking.</p>
+
+<p>Beyond standard exploration, the application features a personalized favorites system and integrates the Gemini API to power a unique "Movie Chat" experience. This feature allows users to engage in AI-driven discussions about films, explore popular topics, and receive intelligent recommendations within a dedicated interface.</p>
+
                   <div className="social-icon">
-                    <a href="https://cdn.t3kys.com/media/uploads/2025/03/25/DMywmBPPjnp5SVesBygo90vMVnzCgzso.pdf"><img src={github_icon} alt="" /></a>
+                    <a href="https://github.com/chyp3r/Filmora"><img src={github_icon} alt="" /></a>
                   </div>
                 </div>
               </Col>
@@ -48,7 +53,7 @@ export default function TeknofestSaglik25() {
           </div>
         </Container>
       </section>
-      {/* <ProjectPhoto></ProjectPhoto> */}
+      <ProjectPhoto photo1={photo1} photo2={photo2} photo3={photo3} photo4={photo4} count={1}></ProjectPhoto>
       <Footer></Footer>
     </div>
   )
