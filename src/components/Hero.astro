@@ -3,46 +3,114 @@ import { SITE } from '../consts';
 import { getLocale, useTranslations, localizePath } from '../i18n/utils';
 import SocialLinks from './SocialLinks.astro';
 
+interface Props {
+  /** Number of projects on the page — used for the live stat row. */
+  projectCount?: number;
+}
+const { projectCount = 0 } = Astro.props;
+
 const locale = getLocale(Astro.url);
 const t = useTranslations(locale);
 const home = localizePath('/', locale);
 
 // The CV button only renders if you drop a file at public/cv.pdf.
 const cvHref = `${import.meta.env.BASE_URL.replace(/\/$/, '')}${SITE.cvPath}`;
+
+// Headline is split so each word can fly in on its own delay.
+const words = t('hero.title').split(' ');
+const rotator = t('hero.rotator');
+const firstWord = rotator.split('|')[0];
+
+const stats = [
+  { value: projectCount > 0 ? `${projectCount}` : '20+', label: t('hero.stat.projects') },
+  { value: '2', label: t('hero.stat.finals') },
+  { value: '1st', label: t('hero.stat.first') },
+];
 ---
 
-<section class="container-page relative pt-20 pb-16 sm:pt-28 sm:pb-24">
-  <p class="reveal font-mono text-xs uppercase tracking-[0.25em] text-accent">
-    {t('site.tagline')}
-  </p>
-
-  <h1 class="reveal mt-5 max-w-4xl text-4xl font-semibold leading-[1.05] sm:text-6xl" style="animation-delay:.05s">
-    {t('hero.title')}
-  </h1>
-
-  <p class="reveal mt-6 max-w-2xl text-lg text-muted" style="animation-delay:.1s">
-    {t('hero.lede')}
-  </p>
-
-  <div class="reveal mt-9 flex flex-wrap items-center gap-3" style="animation-delay:.15s">
-    <a
-      href={`${home}#work`}
-      class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-[var(--color-accent-contrast)] transition-transform hover:scale-[1.03]"
+<section class="relative overflow-hidden">
+  <!-- Decorative orbits behind the headline. -->
+  <div class="pointer-events-none absolute inset-0 -z-10 hidden sm:block" aria-hidden="true">
+    <div class="orbit" style="width:34rem;height:34rem;right:-10rem;top:-9rem"></div>
+    <div
+      class="orbit"
+      style="width:22rem;height:22rem;right:-3rem;top:-2rem;animation-duration:19s;animation-direction:reverse"
     >
-      {t('hero.cta.work')}
-    </a>
-    <a
-      href={cvHref}
-      data-cv-link
-      hidden
-      class="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-text transition-colors hover:border-accent"
-    >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" />
-      </svg>
-      {t('hero.cta.cv')}
-    </a>
-    <SocialLinks class="ml-1" />
+    </div>
+  </div>
+
+  <div class="container-page relative pt-16 pb-14 sm:pt-24 sm:pb-20">
+    <p class="reveal">
+      <span
+        class="glass inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-xs text-muted"
+      >
+        <span class="pulse-dot"></span>
+        {t('hero.available')}
+      </span>
+    </p>
+
+    <p class="eyebrow reveal mt-7" style="--d:60ms">{t('site.tagline')}</p>
+
+    <h1 class="mt-4 max-w-5xl text-[clamp(2.4rem,7vw,4.6rem)] font-semibold leading-[1.02]">
+      {
+        words.map((w, i) => (
+          <span class="word" style={`--d:${140 + i * 65}ms`}>
+            {w}
+          </span>
+        ))
+      }
+    </h1>
+
+    <p class="reveal mt-6 flex flex-wrap items-center gap-2 font-medium" style="--d:220ms">
+      <span class="text-muted">{t('hero.building')}</span>
+      <span
+        data-rotator={rotator}
+        class="text-gradient--brand inline-block font-display text-lg font-semibold transition-all duration-300 sm:text-xl"
+        style="opacity:1"
+      >
+        {firstWord}
+      </span>
+    </p>
+
+    <p class="reveal mt-5 max-w-2xl text-lg text-muted" style="--d:280ms">
+      {t('hero.lede')}
+    </p>
+
+    <div class="reveal mt-9 flex flex-wrap items-center gap-3" style="--d:340ms">
+      <a href={`${home}#work`} class="btn btn-primary">
+        {t('hero.cta.work')}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14m0 0-5-5m5 5-5 5" />
+        </svg>
+      </a>
+      <a href={cvHref} data-cv-link hidden class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" />
+        </svg>
+        {t('hero.cta.cv')}
+      </a>
+      <SocialLinks class="ml-1" />
+    </div>
+
+    <dl class="reveal mt-12 grid max-w-2xl grid-cols-3 gap-4" style="--d:400ms">
+      {
+        stats.map((s) => (
+          <div class="border-l border-border pl-4">
+            <dt class="font-display text-2xl font-semibold sm:text-3xl">{s.value}</dt>
+            <dd class="mt-1 text-xs text-muted sm:text-sm">{s.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="reveal mt-14 flex items-center gap-2 text-xs text-muted" style="--d:480ms">
+      <span class="scroll-cue inline-flex">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 4v16m0 0 6-6m-6 6-6-6" />
+        </svg>
+      </span>
+      <span class="uppercase tracking-[0.2em]">{t('hero.scroll')}</span>
+    </div>
   </div>
 </section>
 

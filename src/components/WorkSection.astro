@@ -15,10 +15,14 @@ const t = useTranslations(locale);
 
 // Only show filters for categories actually present in this set.
 const present = CATEGORIES.filter((c) => projects.some((p) => p.data.category === c));
-const filters = [{ key: 'all', label: t('work.filter.all') }, ...present.map((c) => ({
-  key: c,
-  label: t(`cat.${c}` as UIKey),
-}))];
+const filters = [
+  { key: 'all', label: t('work.filter.all'), count: projects.length },
+  ...present.map((c) => ({
+    key: c as string,
+    label: t(`cat.${c}` as UIKey),
+    count: projects.filter((p) => p.data.category === c).length,
+  })),
+];
 ---
 
 <section class="container-page py-20 sm:py-28">
@@ -29,47 +33,60 @@ const filters = [{ key: 'all', label: t('work.filter.all') }, ...present.map((c)
     subtitle={t('work.subtitle')}
   />
 
-  <div
-    class="mt-8 flex flex-wrap gap-2"
-    role="group"
-    aria-label={t('work.title')}
-    data-filter-group
-  >
+  <div class="mt-9 flex flex-wrap gap-2" role="group" aria-label={t('work.title')} data-filter-group>
     {
       filters.map((f, i) => (
-        <button
-          type="button"
-          data-filter={f.key}
-          aria-pressed={i === 0 ? 'true' : 'false'}
-          class="rounded-full border border-border px-3.5 py-1.5 text-sm text-muted transition-colors hover:text-text aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-[var(--color-accent-contrast)]"
-        >
+        <button type="button" data-filter={f.key} aria-pressed={i === 0 ? 'true' : 'false'} class="filter-pill">
           {f.label}
+          <span class="filter-pill__count">{f.count}</span>
         </button>
       ))
     }
   </div>
 
-  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-project-grid>
+  <div class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-project-grid>
     {projects.map((project) => <ProjectCard project={project} />)}
   </div>
 </section>
 
 <script>
-  const group = document.querySelector<HTMLElement>('[data-filter-group]');
-  const grid = document.querySelector<HTMLElement>('[data-project-grid]');
-  if (group && grid) {
+  function initFilters() {
+    const group = document.querySelector<HTMLElement>('[data-filter-group]');
+    const grid = document.querySelector<HTMLElement>('[data-project-grid]');
+    if (!group || !grid || group.dataset.bound === 'true') return;
+    group.dataset.bound = 'true';
+
     const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-category]'));
+
     group.addEventListener('click', (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
       if (!btn) return;
       const value = btn.dataset.filter;
-      group.querySelectorAll('[data-filter]').forEach((b) =>
-        b.setAttribute('aria-pressed', String(b === btn))
-      );
+      group
+        .querySelectorAll('[data-filter]')
+        .forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+
+      let shown = 0;
       cards.forEach((card) => {
         const show = value === 'all' || card.dataset.category === value;
-        card.toggleAttribute('hidden', !show);
+        if (show) {
+          card.hidden = false;
+          // Re-run the entrance animation so filtering feels alive.
+          card.classList.remove('is-in');
+          card.style.setProperty('--d', `${Math.min(shown, 8) * 45}ms`);
+          shown += 1;
+          requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('is-in')));
+        } else {
+          card.classList.remove('is-in');
+          window.setTimeout(() => {
+            if (!card.classList.contains('is-in')) card.hidden = true;
+          }, 220);
+        }
       });
     });
   }
+
+  document.addEventListener('astro:page-load', initFilters);
+  if (document.readyState !== 'loading') initFilters();
+  else document.addEventListener('DOMContentLoaded', initFilters, { once: true });
 </script>

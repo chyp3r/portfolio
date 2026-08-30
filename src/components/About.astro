@@ -4,13 +4,39 @@ import SectionHeading from './SectionHeading.astro';
 
 const locale = getLocale(Astro.url);
 const t = useTranslations(locale);
+
+const paragraphs = [t('about.body.1'), t('about.body.2'), t('about.body.3')];
 ---
 
 <section class="container-page py-20 sm:py-28">
   <SectionHeading id="about" title={t('about.title')} />
-  <div class="prose-content reveal mt-8 text-[1.05rem]">
-    <p>{t('about.body.1')}</p>
-    <p>{t('about.body.2')}</p>
-    <p>{t('about.body.3')}</p>
+
+  <div class="mt-10 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
+    <div class="prose-content text-[1.05rem]">
+      {paragraphs.map((p) => <p data-reveal>{p}</p>)}
+    </div>
+
+    <aside data-reveal class="card relative p-7">
+      <div
+        class="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-40 blur-3xl"
+        style="background: radial-gradient(circle, var(--color-accent), transparent 70%);"
+        aria-hidden="true"
+      >
+      </div>
+      <p class="eyebrow">Hacettepe · Deneyap · Teknofest</p>
+      <p class="mt-4 font-display text-xl leading-snug">
+        {t('site.tagline')}
+      </p>
+      <ul class="mt-6 space-y-3 text-sm text-muted">
+        <li class="flex items-start gap-2.5">
+          <span class="pulse-dot mt-1.5 shrink-0"></span>
+          {t('hero.available')}
+        </li>
+        <li class="flex items-start gap-2.5">
+          <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-accent"></span>
+          {t('hero.eyebrow')}
+        </li>
+      </ul>
+    </aside>
   </div>
 </section>

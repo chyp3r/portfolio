@@ -1,0 +1,55 @@
+---
+import { getLocale, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLocale(Astro.url));
+
+// Resolve the bundled URL for every brand icon in src/assets/icons.
+const urls = import.meta.glob<string>('../assets/icons/*.svg', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+
+const order = [
+  ['python', 'Python'],
+  ['pytorch', 'PyTorch'],
+  ['tensorflow', 'TensorFlow'],
+  ['flutter', 'Flutter'],
+  ['unity', 'Unity'],
+  ['csharp', 'C#'],
+  ['java', 'Java'],
+  ['cplus', 'C++'],
+  ['c', 'C'],
+  ['r', 'R'],
+  ['ardiuno', 'Arduino'],
+  ['git', 'Git'],
+] as const;
+
+const items = order
+  .map(([key, label]) => ({ label, src: urls[`../assets/icons/${key}.svg`] }))
+  .filter((i) => Boolean(i.src));
+---
+
+{
+  items.length > 0 && (
+    <section class="relative py-6">
+      <div class="container-page">
+        <p class="eyebrow mb-5 text-center text-muted">{t('hero.stack')}</p>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          {[0, 1].map(() => (
+            <ul class="flex shrink-0 items-center gap-12 pr-12">
+              {items.map((i) => (
+                <li class="tech-logo" title={i.label}>
+                  <img src={i.src} alt="" width="34" height="34" loading="lazy" decoding="async" />
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
+      <p class="sr-only">{items.map((i) => i.label).join(', ')}</p>
+    </section>
+  )
+}

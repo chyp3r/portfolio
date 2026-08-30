@@ -17,3 +17,15 @@
     }
   })();
 </script>
+
+<script is:inline>
+  // Re-apply the saved theme after a view transition swaps <html> attributes.
+  document.addEventListener('astro:after-swap', () => {
+    try {
+      const saved = localStorage.getItem('theme');
+      const system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme =
+        saved === 'light' || saved === 'dark' ? saved : system;
+    } catch (_) {}
+  });
+</script>

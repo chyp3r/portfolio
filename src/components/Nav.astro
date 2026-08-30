@@ -16,21 +16,41 @@ const links = [
   { href: localizePath('/blog', locale), label: t('nav.writing') },
   { href: `${home}#contact`, label: t('nav.contact') },
 ];
+const initials = SITE.name
+  .split(' ')
+  .map((w) => w[0])
+  .join('');
 ---
 
 <header
-  class="sticky top-0 z-40 border-b border-border/60 bg-bg/80 backdrop-blur supports-[backdrop-filter]:bg-bg/60"
+  data-header
+  transition:persist
+  class="nav-shell sticky top-0 z-40"
 >
+  <div class="nav-shell__bg" aria-hidden="true"></div>
+
   <nav class="container-page flex h-16 items-center justify-between gap-4" aria-label="Primary">
-    <a href={home} class="font-display text-sm font-semibold tracking-tight">
-      {SITE.name}<span class="text-accent">.</span>
+    <a href={home} class="group inline-flex items-center gap-2.5">
+      <span
+        class="relative grid h-8 w-8 place-items-center overflow-hidden rounded-xl text-[11px] font-bold text-[var(--color-accent-contrast)] transition-transform duration-500 group-hover:rotate-[8deg] group-hover:scale-110"
+        style="background-image: linear-gradient(135deg, var(--color-accent), var(--color-magenta) 55%, var(--color-cyan));"
+      >
+        {initials}
+      </span>
+      <span class="font-display text-sm font-semibold tracking-tight">
+        {SITE.name}<span class="text-accent">.</span>
+      </span>
     </a>
 
-    <ul class="hidden items-center gap-6 md:flex">
+    <ul class="hidden items-center gap-7 md:flex">
       {
         links.map((l) => (
           <li>
-            <a href={l.href} class="text-sm text-muted transition-colors hover:text-text">
+            <a
+              href={l.href}
+              data-nav-link
+              class="link-slide text-sm text-muted transition-colors duration-300 hover:text-text aria-[current=true]:text-text"
+            >
               {l.label}
             </a>
           </li>
@@ -42,24 +62,22 @@ const links = [
       <LangSwitch />
       <ThemeToggle client:load label={t('theme.toggle')} />
 
-      <details class="relative md:hidden">
+      <details class="group relative md:hidden">
         <summary
-          class="inline-flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-full border border-border bg-surface text-text [&::-webkit-details-marker]:hidden"
+          class="icon-btn cursor-pointer list-none text-text [&::-webkit-details-marker]:hidden"
           aria-label="Menu"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M3 6h18M3 12h18M3 18h18" />
           </svg>
         </summary>
-        <ul
-          class="absolute right-0 mt-2 w-48 rounded-xl border border-border bg-surface p-2 shadow-card"
-        >
+        <ul class="glass absolute right-0 mt-3 w-52 rounded-2xl p-2">
           {
-            links.map((l) => (
-              <li>
+            links.map((l, i) => (
+              <li class="reveal" style={`--d:${i * 40}ms`}>
                 <a
                   href={l.href}
-                  class="block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-bg-soft hover:text-text"
+                  class="block rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-bg-soft hover:text-text"
                 >
                   {l.label}
                 </a>
@@ -70,4 +88,8 @@ const links = [
       </details>
     </div>
   </nav>
+
+  <div class="progress-track" aria-hidden="true">
+    <div class="progress-bar" data-progress></div>
+  </div>
 </header>

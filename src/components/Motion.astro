@@ -1,0 +1,207 @@
+---
+/**
+ * Site-wide motion layer. One script drives every effect so pages stay cheap:
+ *  - scroll reveals with automatic stagger
+ *  - cursor spotlight on cards + ambient pointer glow (fine pointers only)
+ *  - reading-progress bar and active-section highlighting in the nav
+ *  - timeline rail fill
+ * Everything re-initialises on `astro:page-load` so it survives view transitions.
+ */
+---
+
+<script>
+  const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cleanups: (() => void)[] = [];
+
+  function revealOnScroll() {
+    const items = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    if (!items.length) return;
+    if (reduced()) {
+      items.forEach((el) => el.classList.add('is-in'));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const index = Number(el.dataset.revealIndex ?? 0);
+          el.style.setProperty('--d', `${Math.min(index, 8) * 70}ms`);
+          el.classList.add('is-in');
+          io.unobserve(el);
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+    );
+
+    // Stagger is per-group: siblings sharing a parent animate in sequence.
+    const seen = new Map<Element, number>();
+    items.forEach((el) => {
+      const parent = el.parentElement ?? document.body;
+      const n = seen.get(parent) ?? 0;
+      seen.set(parent, n + 1);
+      if (!el.dataset.revealIndex) el.dataset.revealIndex = String(n);
+      io.observe(el);
+    });
+    cleanups.push(() => io.disconnect());
+
+    // Safety net: if the observer never fires (background tab, odd browser),
+    // show everything rather than leaving the page blank.
+    const failsafe = window.setTimeout(
+      () => items.forEach((el) => el.classList.add('is-in')),
+      4000
+    );
+    cleanups.push(() => window.clearTimeout(failsafe));
+  }
+
+  function cardSpotlight() {
+    const onMove = (e: PointerEvent) => {
+      const card = (e.target as HTMLElement)?.closest?.<HTMLElement>('.card');
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      card.style.setProperty('--my', `${e.clientY - r.top}px`);
+    };
+    document.addEventListener('pointermove', onMove, { passive: true });
+    cleanups.push(() => document.removeEventListener('pointermove', onMove));
+  }
+
+  function pointerGlow() {
+    const glow = document.querySelector<HTMLElement>('[data-cursor-glow]');
+    if (!glow) return;
+    const fine = window.matchMedia('(pointer: fine)').matches && !reduced();
+    document.body.dataset.pointer = fine ? 'fine' : 'coarse';
+    if (!fine) return;
+
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+    let cx = x;
+    let cy = y;
+    let raf = 0;
+
+    const onMove = (e: PointerEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+    };
+    const tick = () => {
+      cx += (x - cx) * 0.08;
+      cy += (y - cy) * 0.08;
+      glow.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    raf = requestAnimationFrame(tick);
+    cleanups.push(() => {
+      window.removeEventListener('pointermove', onMove);
+      cancelAnimationFrame(raf);
+    });
+  }
+
+  function scrollDriven() {
+    const bar = document.querySelector<HTMLElement>('[data-progress]');
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    const rails = Array.from(document.querySelectorAll<HTMLElement>('[data-rail]'));
+    const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'));
+    const sections = navLinks
+      .map((a) => {
+        const id = a.hash.slice(1);
+        return id ? document.getElementById(id) : null;
+      })
+      .map((el, i) => ({ el, link: navLinks[i] }))
+      .filter((s): s is { el: HTMLElement; link: HTMLAnchorElement } => Boolean(s.el));
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const y = window.scrollY;
+
+      if (bar) bar.style.setProperty('--p', String(max > 0 ? Math.min(y / max, 1) : 0));
+      if (header) header.dataset.scrolled = y > 12 ? 'true' : 'false';
+
+      rails.forEach((rail) => {
+        const r = rail.getBoundingClientRect();
+        const fill = (window.innerHeight * 0.72 - r.top) / Math.max(r.height, 1);
+        rail.style.setProperty('--fill', String(Math.max(0, Math.min(1, fill))));
+      });
+
+      if (sections.length) {
+        const marker = y + window.innerHeight * 0.32;
+        let active = sections[0];
+        for (const s of sections) if (s.el.offsetTop <= marker) active = s;
+        sections.forEach((s) =>
+          s.link.setAttribute('aria-current', String(s === active && y > 80))
+        );
+      }
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+    cleanups.push(() => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    });
+  }
+
+  /** Rotating word in the hero. */
+  function rotator() {
+    const el = document.querySelector<HTMLElement>('[data-rotator]');
+    if (!el) return;
+    const words = (el.dataset.rotator ?? '').split('|').filter(Boolean);
+    if (words.length < 2 || reduced()) return;
+
+    let i = 0;
+    const show = (text: string) => {
+      el.textContent = text;
+      // Reflow between the two states instead of rAF, so the swap still
+      // completes in a background tab (where rAF never fires).
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(0.35em)';
+      void el.offsetWidth;
+      el.style.transition = '';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    };
+
+    const id = window.setInterval(() => {
+      if (document.hidden) return;
+      i = (i + 1) % words.length;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(-0.35em)';
+      window.setTimeout(() => show(words[i]), 220);
+    }, 2800);
+
+    // Coming back to the tab mid-swap should never leave an empty slot.
+    const onVisible = () => {
+      if (!document.hidden) show(words[i]);
+    };
+    document.addEventListener('visibilitychange', onVisible);
+
+    cleanups.push(() => {
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', onVisible);
+    });
+  }
+
+  function init() {
+    cleanups.forEach((fn) => fn());
+    cleanups = [];
+    revealOnScroll();
+    cardSpotlight();
+    pointerGlow();
+    scrollDriven();
+    rotator();
+  }
+
+  document.addEventListener('astro:page-load', init);
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init, { once: true });
+</script>

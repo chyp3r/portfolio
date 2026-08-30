@@ -2,6 +2,7 @@
 import { getLocale } from '../i18n/utils';
 import { getProjects } from '../lib/content';
 import Hero from './Hero.astro';
+import TechMarquee from './TechMarquee.astro';
 import WorkSection from './WorkSection.astro';
 import About from './About.astro';
 import Timeline from './Timeline.astro';
@@ -13,7 +14,8 @@ const locale = getLocale(Astro.url);
 const projects = await getProjects(locale);
 ---
 
-<Hero />
+<Hero projectCount={projects.length} />
+<TechMarquee />
 <WorkSection projects={projects} />
 <About />
 <Timeline />

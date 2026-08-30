@@ -2,7 +2,9 @@
 import '../styles/global.css';
 import { SITE } from '../consts';
 import { getLocale, useTranslations, switchLocalePath, otherLocale } from '../i18n/utils';
+import { ClientRouter } from 'astro:transitions';
 import ThemeScript from '../components/ThemeScript.astro';
+import Motion from '../components/Motion.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
@@ -86,12 +88,30 @@ const personLd = {
     <meta name="theme-color" content="#15151f" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f4f5fb" media="(prefers-color-scheme: light)" />
 
+    <ClientRouter />
+    <noscript>
+      <style>
+        [data-reveal],
+        .reveal,
+        .word {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
+          animation: none !important;
+        }
+      </style>
+    </noscript>
     <slot name="head" />
     <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
   </head>
 
   <body>
-    <div class="starfield" aria-hidden="true"></div>
+    <div class="ambient" aria-hidden="true">
+      <div class="aurora"><span></span><span></span><span></span></div>
+      <div class="grid-overlay"></div>
+      <div class="grain"></div>
+    </div>
+    <div class="cursor-glow" data-cursor-glow aria-hidden="true"></div>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2 focus:shadow-card"
@@ -104,5 +124,6 @@ const personLd = {
       <slot />
     </main>
     <Footer />
+    <Motion />
   </body>
 </html>

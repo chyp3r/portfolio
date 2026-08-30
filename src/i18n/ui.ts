@@ -26,6 +26,14 @@ export const ui = {
       'Gökdeniz Kuruca — computer-vision & ML engineer and mobile developer. Teknofest 2025 finalist, Anadolu Agency hackathon winner, R&D student at Hacettepe University.',
     'hero.cta.work': 'See selected work',
     'hero.cta.cv': 'Download CV',
+    'hero.available': 'Open to 2026 internships & collaborations',
+    'hero.rotator': 'computer vision|mobile apps|generative AI|games|research',
+    'hero.building': 'Currently building',
+    'hero.scroll': 'Scroll',
+    'hero.stat.projects': 'shipped projects',
+    'hero.stat.finals': 'Teknofest finals',
+    'hero.stat.first': 'hackathon win',
+    'hero.stack': 'Working stack',
 
     'work.title': 'Selected work',
     'work.subtitle':
@@ -118,6 +126,14 @@ export const ui = {
       'Gökdeniz Kuruca — bilgisayarlı görü & ML mühendisi ve mobil geliştirici. Teknofest 2025 finalisti, Anadolu Ajansı hackathon birincisi, Hacettepe Üniversitesi Ar-Ge öğrenci kulübü.',
     'hero.cta.work': 'Seçili projeler',
     'hero.cta.cv': 'CV indir',
+    'hero.available': '2026 stajlarına ve iş birliklerine açığım',
+    'hero.rotator': 'bilgisayarlı görü|mobil uygulama|üretken yapay zekâ|oyun|araştırma',
+    'hero.building': 'Şu an üzerinde çalıştığım',
+    'hero.scroll': 'Kaydır',
+    'hero.stat.projects': 'yayınlanan proje',
+    'hero.stat.finals': 'Teknofest finali',
+    'hero.stat.first': 'hackathon birinciliği',
+    'hero.stack': 'Kullandığım teknolojiler',
 
     'work.title': 'Seçili projeler',
     'work.subtitle':

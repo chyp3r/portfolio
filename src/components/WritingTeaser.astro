@@ -14,16 +14,18 @@ const posts = (await getPosts(locale)).slice(0, 3);
 
   {
     posts.length === 0 ? (
-      <p class="mt-8 text-muted">{t('writing.empty')}</p>
+      <p class="mt-8 text-muted" data-reveal>
+        {t('writing.empty')}
+      </p>
     ) : (
-      <ul class="mt-8 divide-y divide-border border-t border-border">
+      <ul class="mt-9 border-t border-border">
         {posts.map((post) => (
-          <li class="reveal">
+          <li data-reveal class="border-b border-border">
             <a
               href={localizePath(`/blog/${slugOf(post.id)}`, locale)}
-              class="group flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:justify-between"
+              class="post-row group flex flex-col gap-1 py-6 sm:flex-row sm:items-baseline sm:justify-between"
             >
-              <span class="font-medium transition-colors group-hover:text-accent">
+              <span class="font-display text-lg font-medium transition-transform duration-500 group-hover:translate-x-2">
                 {post.data.title}
               </span>
               <span class="font-mono text-xs text-muted">
@@ -40,9 +42,13 @@ const posts = (await getPosts(locale)).slice(0, 3);
     posts.length > 0 && (
       <a
         href={localizePath('/blog', locale)}
-        class="mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+        class="link-slide mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent"
+        data-reveal
       >
         {t('writing.all')}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14m0 0-5-5m5 5-5 5" />
+        </svg>
       </a>
     )
   }

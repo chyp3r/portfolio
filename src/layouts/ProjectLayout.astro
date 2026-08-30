@@ -48,22 +48,24 @@ const workLd = {
   <article class="container-page py-14 sm:py-20">
     <a
       href={localizePath('/projects', locale)}
-      class="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-text"
+      class="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-text"
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M19 12H5M11 18l-6-6 6-6" />
+        <path class="transition-transform duration-500 group-hover:-translate-x-0.5" d="M19 12H5M11 18l-6-6 6-6" />
       </svg>
       {t('project.back')}
     </a>
 
-    <header class="mt-8 max-w-3xl">
+    <header class="mt-8 max-w-3xl" data-reveal>
       <div class="flex flex-wrap items-center gap-3">
-        <span class="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+        <span class="eyebrow">
           {t(`cat.${data.category}` as UIKey)}
         </span>
         <StatusBadge status={data.status} />
       </div>
-      <h1 class="mt-4 text-3xl font-semibold sm:text-5xl">{data.title}</h1>
+      <h1 class="mt-4 text-4xl font-semibold sm:text-6xl">
+        <span class="text-gradient">{data.title}</span>
+      </h1>
       <p class="mt-5 text-lg text-muted">{data.summary}</p>
     </header>
 
@@ -76,18 +78,18 @@ const workLd = {
               alt={data.title}
               widths={[600, 960, 1400]}
               sizes="(min-width: 1024px) 720px, 100vw"
-              class="w-full rounded-[var(--radius-card)] border border-border bg-bg-soft"
+              class="w-full rounded-[var(--radius-card)] border border-border bg-bg-soft shadow-[var(--shadow-card)]"
             />
           )
         }
-        <div class="prose-content mt-10">
+        <div class="prose-content mt-10" data-reveal>
           <Content />
         </div>
 
         {
           data.gallery.length > 0 && (
             <section class="mt-14">
-              <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              <h2 class="eyebrow text-muted">
                 {t('project.gallery')}
               </h2>
               <div class="mt-4 grid gap-4 sm:grid-cols-2">
@@ -97,7 +99,8 @@ const workLd = {
                     alt={`${data.title} — ${i + 1}`}
                     widths={[400, 700]}
                     sizes="(min-width: 640px) 45vw, 90vw"
-                    class="w-full rounded-xl border border-border bg-bg-soft"
+                    data-reveal
+                    class="w-full rounded-xl border border-border bg-bg-soft transition-transform duration-500 hover:-translate-y-1"
                     loading="lazy"
                   />
                 ))}
@@ -108,26 +111,26 @@ const workLd = {
       </div>
 
       <aside class="order-1 lg:order-2">
-        <dl class="space-y-5 rounded-[var(--radius-card)] border border-border bg-surface p-5 text-sm shadow-card">
+        <dl class="glass sticky top-24 space-y-5 rounded-[var(--radius-card)] p-5 text-sm">
           {
             data.role && (
               <div>
-                <dt class="font-mono text-xs uppercase tracking-wide text-muted">{t('project.role')}</dt>
+                <dt class="eyebrow text-muted">{t('project.role')}</dt>
                 <dd class="mt-1">{data.role}</dd>
               </div>
             )
           }
           <div>
-            <dt class="font-mono text-xs uppercase tracking-wide text-muted">{t('project.year')}</dt>
+            <dt class="eyebrow text-muted">{t('project.year')}</dt>
             <dd class="mt-1">{data.year}</dd>
           </div>
           {
             data.stack.length > 0 && (
               <div>
-                <dt class="font-mono text-xs uppercase tracking-wide text-muted">{t('project.stack')}</dt>
+                <dt class="eyebrow text-muted">{t('project.stack')}</dt>
                 <dd class="mt-2 flex flex-wrap gap-1.5">
                   {data.stack.map((s) => (
-                    <span class="rounded-md border border-border px-2 py-0.5 text-xs">{s}</span>
+                    <span class="chip chip-sm">{s}</span>
                   ))}
                 </dd>
               </div>
@@ -136,14 +139,14 @@ const workLd = {
           {
             links.length > 0 && (
               <div>
-                <dt class="font-mono text-xs uppercase tracking-wide text-muted">{t('project.links')}</dt>
+                <dt class="eyebrow text-muted">{t('project.links')}</dt>
                 <dd class="mt-2 space-y-1.5">
                   {links.map(([key, href]) => (
                     <a
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="flex items-center gap-1.5 text-accent hover:underline"
+                      class="link-slide flex w-fit items-center gap-1.5 text-accent"
                     >
                       {linkLabels[key] ?? key}
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -164,7 +167,7 @@ const workLd = {
         prev && (
           <a
             href={localizePath(`/projects/${slugOf(prev.id)}`, locale)}
-            class="group rounded-xl border border-border bg-surface p-4 transition-colors hover:border-accent"
+            class="card group p-5"
           >
             <span class="font-mono text-xs text-muted">{t('project.prev')}</span>
             <span class="mt-1 block font-medium group-hover:text-accent">{prev.data.title}</span>
@@ -175,7 +178,7 @@ const workLd = {
         next && (
           <a
             href={localizePath(`/projects/${slugOf(next.id)}`, locale)}
-            class="group rounded-xl border border-border bg-surface p-4 text-right transition-colors hover:border-accent sm:col-start-2"
+            class="card group p-5 text-right sm:col-start-2"
           >
             <span class="font-mono text-xs text-muted">{t('project.next')}</span>
             <span class="mt-1 block font-medium group-hover:text-accent">{next.data.title}</span>
