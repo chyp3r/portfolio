@@ -3,7 +3,7 @@ export const SITE = {
   /** Used for absolute URLs, canonical tags and JSON-LD. Keep in sync with astro.config `site`. */
   url: 'https://chyp3r.github.io',
   name: 'Gökdeniz Kuruca',
-  role: 'AI / ML & Mobile Developer',
+  role: 'AI Developer — LLM Agents & Computer Vision',
   /** Set an address here to expose a mailto contact + JSON-LD email. Empty = contact via socials only. */
   email: '',
   /** Optional CV file. Drop a PDF at `public/cv.pdf` and the button appears automatically. */

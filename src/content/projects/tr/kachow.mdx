@@ -1,0 +1,22 @@
+---
+title: "KACHOW — Resmî Yazışma Ajanları"
+summary: "Kamu kurumları için yapay zekâ destekli karar destek platformu: resmî belgeleri analiz eder, taslak yazar, iddiaları doğrular ve ilgili birime yönlendirir. Teknofest 2026 için geliştirildi."
+category: ai
+year: 2026
+order: 20
+role: "Yapay zekâ geliştiricisi"
+stack: ["Python 3.12", "FastAPI", "LangGraph", "LangChain", "Qdrant", "PostgreSQL", "Redis", "Ollama / Qwen", "React", "TypeScript", "Docker", "Kubernetes"]
+status: wip
+links:
+  github: https://github.com/chyp3r/KACHOW-Teknofest-2026
+---
+
+KACHOW, Teknofest 2026 **Doğal Dil İşleme Ajanları** yarışması için geliştirilen, kamu kurumlarına yönelik bir karar destek platformu. Gelen resmî belgeyi analiz, taslak oluşturma, doğrulama ve birime yönlendirme aşamalarından geçiriyor.
+
+Her aşama kendi kontrol noktalarına sahip ayrı bir **LangGraph** durum makinesi; böylece bir akış sayfa yenilense de kaldığı yerden devam ediyor ve kritik kararlarda insan onayı için duruyor. Belge okuma zinciri kademeli: önce PDF metni, sonra Tesseract, sonra görü modelleri. Mevzuat araması **BM25 + yoğun vektör** hibrit yapıda **Qdrant** üzerinde çalışıyor, MCP yedeğiyle birlikte.
+
+Taslaklara körü körüne güvenilmiyor: her iddia kaynak belgelerle karşılaştırılıyor ve kritik tutarsızlıklar ortalama güven skoruna gömülmek yerine insan onayını zorunlu kılıyor. Geri bildirimler tercih çiftlerine dönüştürülüp kuruma özel LoRA/DPO ince ayarında kullanılabiliyor.
+
+Dahili değerlendirme setinde hat **%96,8 belge sınıflandırma doğruluğu**, **%97,4 alan çıkarımı F1**, **%91,5 erişim precision@5** ve LLM jüri değerlendirmesinde **4,78/5** taslak kalitesi veriyor.
+
+Sistem, çok kiracılı izolasyon için satır düzeyi güvenlik kullanan **FastAPI + PostgreSQL** üzerinde modüler monolit olarak çalışıyor; ön yüz **React + TypeScript**, gözlemlenebilirlik Prometheus / Grafana / Jaeger / Langfuse ile sağlanıyor. Arkasında ~3.000 backend ve ~450 ön yüz testi var.

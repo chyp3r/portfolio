@@ -1,0 +1,22 @@
+---
+title: "KACHOW — Official Document Agents"
+summary: "An AI decision-support platform for public institutions: it analyses official documents, drafts replies, verifies claims and routes them to the right department. Built for Teknofest 2026."
+category: ai
+year: 2026
+order: 20
+role: "AI developer"
+stack: ["Python 3.12", "FastAPI", "LangGraph", "LangChain", "Qdrant", "PostgreSQL", "Redis", "Ollama / Qwen", "React", "TypeScript", "Docker", "Kubernetes"]
+status: wip
+links:
+  github: https://github.com/chyp3r/KACHOW-Teknofest-2026
+---
+
+KACHOW is a decision-support platform for Turkish public institutions, built for the **Natural Language Agents** competition at Teknofest 2026. It takes an incoming official document and carries it through analysis, drafting, verification and departmental routing.
+
+Each stage is a separate **LangGraph** state machine with its own checkpoints, so a run survives page reloads and can pause for a human at critical decisions. Document ingestion falls back through a chain — PDF text, then Tesseract, then vision models — before field extraction. Retrieval over legislation is hybrid **BM25 + dense search** on **Qdrant**, with an MCP fallback.
+
+Drafts are not trusted blindly: every assertion is cross-checked against the source documents, and critical inconsistencies force human approval rather than being averaged away by a confidence score. Feedback is mined into preference pairs for optional per-institution LoRA/DPO fine-tuning.
+
+On the internal evaluation set the pipeline reaches **96.8% document classification accuracy**, **97.4% field-extraction F1**, **91.5% retrieval precision@5** and **4.78/5** draft quality under an LLM judge.
+
+The stack runs as a modular monolith on **FastAPI + PostgreSQL** with row-level security for multi-tenant isolation, a **React + TypeScript** front end, and Prometheus / Grafana / Jaeger / Langfuse for observability — with ~3,000 backend and ~450 front-end tests behind it.

@@ -8,19 +8,56 @@ const t = useTranslations(locale);
 const groups: { title: string; items: string[] }[] = [
   {
     title: t('skills.group.languages'),
-    items: ['Python', 'C / C++', 'Java', 'C#', 'Dart', 'Swift', 'R'],
+    items: ['Python', 'C / C++', 'Java', 'C#', 'Swift', 'Dart', 'SQL', 'R'],
+  },
+  {
+    title: t('skills.group.llm'),
+    items: [
+      'LangChain',
+      'LangGraph',
+      'Agentic RAG',
+      'MCP',
+      'Qdrant',
+      'pgvector',
+      'Ollama',
+      'vLLM',
+      'LoRA / DPO',
+      'Guardrails',
+      'Hugging Face',
+    ],
   },
   {
     title: t('skills.group.aiml'),
-    items: ['PyTorch', 'TensorFlow', 'YOLOv8', 'Vision Transformers', 'OpenCV', 'Albumentations', 'Roboflow', 'scikit-learn'],
+    items: [
+      'PyTorch',
+      'TensorFlow',
+      'Transformers',
+      'YOLOv8',
+      'Vision Transformers',
+      'OpenCV',
+      'scikit-learn',
+      'NumPy / Pandas',
+      'Albumentations',
+    ],
   },
   {
     title: t('skills.group.mobileGame'),
-    items: ['Flutter', 'SwiftUI', 'React Native', 'Firebase', 'Unity', 'Godot'],
+    items: ['Swift / UIKit', 'SwiftUI', 'Flutter', 'React Native', 'Firebase', 'Unity', 'Godot'],
   },
   {
     title: t('skills.group.tools'),
-    items: ['Docker', 'Django', 'PostgreSQL / pgvector', 'React', 'Git', 'Linux / WSL'],
+    items: [
+      'FastAPI',
+      'Django',
+      'PostgreSQL',
+      'Redis',
+      'Docker',
+      'Kubernetes',
+      'React / TypeScript',
+      'Streamlit',
+      'Git',
+      'Linux / WSL',
+    ],
   },
 ];
 ---

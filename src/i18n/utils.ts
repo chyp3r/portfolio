@@ -1,9 +1,18 @@
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '../consts';
 import { ui, type UIKey } from './ui';
 
+/** Strip a configured `base` (e.g. `/portfolio`) off a pathname. */
+function stripBase(pathname: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  if (base && (pathname === base || pathname.startsWith(base + '/'))) {
+    return pathname.slice(base.length);
+  }
+  return pathname;
+}
+
 /** Read the active locale from a URL pathname (`/tr/...` → `tr`, else default). */
 export function getLocale(url: URL): Locale {
-  const seg = url.pathname.split('/').filter(Boolean)[0];
+  const seg = stripBase(url.pathname).split('/').filter(Boolean)[0];
   return (LOCALES as readonly string[]).includes(seg) ? (seg as Locale) : DEFAULT_LOCALE;
 }
 
@@ -27,9 +36,9 @@ export function localizePath(path: string, locale: Locale): string {
   return (base + (withLocale === '/' ? '/' : withLocale)) || '/';
 }
 
-/** Same page, other language. Strips a leading locale segment then re-adds the target one. */
+/** Same page, other language. Strips the base + a leading locale segment, then re-adds the target one. */
 export function switchLocalePath(url: URL, target: Locale): string {
-  const parts = url.pathname.replace(import.meta.env.BASE_URL, '/').split('/').filter(Boolean);
+  const parts = stripBase(url.pathname).split('/').filter(Boolean);
   if ((LOCALES as readonly string[]).includes(parts[0])) parts.shift();
   return localizePath('/' + parts.join('/'), target);
 }

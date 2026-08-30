@@ -6,9 +6,9 @@ import type { Locale } from '../consts';
  */
 export const ui = {
   en: {
-    'site.title': 'Gökdeniz Kuruca — AI/ML & Mobile Developer',
+    'site.title': 'Gökdeniz Kuruca — AI Developer, LLM Agents & Computer Vision',
     'site.description':
-      'Portfolio of Gökdeniz Kuruca: computer-vision and machine-learning systems, mobile apps and games. Teknofest finalist, hackathon winner, Hacettepe University.',
+      'Portfolio of Gökdeniz Kuruca: LLM agents, RAG systems and computer vision, plus mobile apps and games. AI developer at ASELSAN and ASELLABS, Hacettepe University.',
     'site.tagline': 'Signals from a small blue planet',
 
     'nav.work': 'Work',
@@ -20,19 +20,20 @@ export const ui = {
     'nav.home': 'Home',
     'nav.allProjects': 'All projects',
 
-    'hero.eyebrow': 'AI / ML · Mobile · Games',
+    'hero.eyebrow': 'LLM agents · Computer vision · Mobile',
     'hero.title': 'I build intelligent systems that ship.',
     'hero.lede':
-      'Gökdeniz Kuruca — computer-vision & ML engineer and mobile developer. Teknofest 2025 finalist, Anadolu Agency hackathon winner, R&D student at Hacettepe University.',
+      'Gökdeniz Kuruca — AI developer working on LLM agents, Agentic RAG and computer vision at ASELSAN and the ASELLABS AI Laboratory. Hackathon winner, Teknofest finalist, Computer Engineering at Hacettepe University.',
     'hero.cta.work': 'See selected work',
     'hero.cta.cv': 'Download CV',
-    'hero.available': 'Open to 2026 internships & collaborations',
-    'hero.rotator': 'computer vision|mobile apps|generative AI|games|research',
+    'hero.available': 'Open to research, internship & collaboration conversations',
+    'hero.rotator': 'LLM agents|agentic RAG|computer vision|mobile apps|research',
     'hero.building': 'Currently building',
     'hero.scroll': 'Scroll',
     'hero.stat.projects': 'shipped projects',
     'hero.stat.finals': 'Teknofest finals',
-    'hero.stat.first': 'hackathon win',
+    'hero.stat.firstValue': '1st',
+    'hero.stat.first': 'AA Hackathon',
     'hero.stack': 'Working stack',
 
     'work.title': 'Selected work',
@@ -43,15 +44,16 @@ export const ui = {
 
     'about.title': 'About',
     'about.body.1':
-      'I am a developer drawn to the hard, useful end of technology: computer vision, machine learning, and the mobile and game work that puts those models in front of real people.',
+      'I am a developer drawn to the hard, useful end of technology: LLM agents and retrieval systems, computer vision, and the mobile work that puts those models in front of real people.',
     'about.body.2':
       'I graduated from the Deneyap Technology Workshops (2022), where I spent years moving between AI, robotics, IoT, energy and design tracks. I now study Computer Engineering at Hacettepe University and work with the Hacettepe R&D student club.',
     'about.body.3':
-      'Across Teknofest competitions, hackathons and internships I have led small teams, owned the vision pipeline, and shipped the app around it. The projects below are the record of that.',
+      'Today I build agentic systems — LangGraph workflows, Agentic RAG over Qdrant, local inference on Ollama and vLLM — as an AI developer at ASELSAN and the ASELLABS AI Laboratory, alongside research on how LLM-agent societies take shape. Across Teknofest competitions, hackathons and internships I have led small teams, owned the pipeline, and shipped the product around it. The projects below are the record of that.',
 
     'experience.title': 'Experience',
     'skills.title': 'Skills & tools',
     'skills.group.languages': 'Languages',
+    'skills.group.llm': 'LLM & agents',
     'skills.group.aiml': 'AI / ML',
     'skills.group.mobileGame': 'Mobile & Games',
     'skills.group.tools': 'Tools & infra',
@@ -106,9 +108,9 @@ export const ui = {
   },
 
   tr: {
-    'site.title': 'Gökdeniz Kuruca — Yapay Zekâ / ML ve Mobil Geliştirici',
+    'site.title': 'Gökdeniz Kuruca — Yapay Zekâ Geliştiricisi, LLM Ajanları & Bilgisayarlı Görü',
     'site.description':
-      'Gökdeniz Kuruca portfolyosu: bilgisayarlı görü ve makine öğrenmesi sistemleri, mobil uygulamalar ve oyunlar. Teknofest finalisti, hackathon birincisi, Hacettepe Üniversitesi.',
+      'Gökdeniz Kuruca portfolyosu: LLM ajanları, RAG sistemleri ve bilgisayarlı görü; ayrıca mobil uygulamalar ve oyunlar. ASELSAN ve ASELLABS’ta yapay zekâ geliştiricisi, Hacettepe Üniversitesi.',
     'site.tagline': 'Küçük mavi bir gezegenden sinyaller',
 
     'nav.work': 'Projeler',
@@ -120,19 +122,20 @@ export const ui = {
     'nav.home': 'Ana sayfa',
     'nav.allProjects': 'Tüm projeler',
 
-    'hero.eyebrow': 'Yapay Zekâ / ML · Mobil · Oyun',
+    'hero.eyebrow': 'LLM ajanları · Bilgisayarlı görü · Mobil',
     'hero.title': 'Sahaya çıkan akıllı sistemler kuruyorum.',
     'hero.lede':
-      'Gökdeniz Kuruca — bilgisayarlı görü & ML mühendisi ve mobil geliştirici. Teknofest 2025 finalisti, Anadolu Ajansı hackathon birincisi, Hacettepe Üniversitesi Ar-Ge öğrenci kulübü.',
+      'Gökdeniz Kuruca — ASELSAN ve ASELLABS Yapay Zekâ Laboratuvarı’nda LLM ajanları, Agentic RAG ve bilgisayarlı görü üzerine çalışan yapay zekâ geliştiricisi. Hackathon birincisi, Teknofest finalisti, Hacettepe Üniversitesi Bilgisayar Mühendisliği.',
     'hero.cta.work': 'Seçili projeler',
     'hero.cta.cv': 'CV indir',
-    'hero.available': '2026 stajlarına ve iş birliklerine açığım',
-    'hero.rotator': 'bilgisayarlı görü|mobil uygulama|üretken yapay zekâ|oyun|araştırma',
+    'hero.available': 'Araştırma, staj ve iş birliği görüşmelerine açığım',
+    'hero.rotator': 'LLM ajanları|agentic RAG|bilgisayarlı görü|mobil uygulama|araştırma',
     'hero.building': 'Şu an üzerinde çalıştığım',
     'hero.scroll': 'Kaydır',
     'hero.stat.projects': 'yayınlanan proje',
     'hero.stat.finals': 'Teknofest finali',
-    'hero.stat.first': 'hackathon birinciliği',
+    'hero.stat.firstValue': '1.',
+    'hero.stat.first': 'AA Hackathon',
     'hero.stack': 'Kullandığım teknolojiler',
 
     'work.title': 'Seçili projeler',
@@ -143,15 +146,16 @@ export const ui = {
 
     'about.title': 'Hakkımda',
     'about.body.1':
-      'Teknolojinin zor ve işe yarayan tarafına ilgi duyan bir geliştiriciyim: bilgisayarlı görü, makine öğrenmesi ve bu modelleri gerçek insanların önüne koyan mobil ile oyun işleri.',
+      'Teknolojinin zor ve işe yarayan tarafına ilgi duyan bir geliştiriciyim: LLM ajanları ve erişim sistemleri, bilgisayarlı görü ve bu modelleri gerçek insanların önüne koyan mobil işler.',
     'about.body.2':
       'Deneyap Teknoloji Atölyeleri’nden (2022) mezun oldum; yıllarca yapay zekâ, robotik, IoT, enerji ve tasarım eğitimleri arasında çalıştım. Şu anda Hacettepe Üniversitesi Bilgisayar Mühendisliği okuyor ve Hacettepe Ar-Ge öğrenci kulübüyle çalışıyorum.',
     'about.body.3':
-      'Teknofest yarışmaları, hackathonlar ve stajlarda küçük ekiplere liderlik ettim, görü hattını üstlendim ve etrafındaki uygulamayı yayına aldım. Aşağıdaki projeler bunun kaydı.',
+      'Bugün ASELSAN ve ASELLABS Yapay Zekâ Laboratuvarı’nda ajan tabanlı sistemler kuruyorum — LangGraph iş akışları, Qdrant üzerinde Agentic RAG, Ollama ve vLLM ile yerel çıkarım — ve LLM ajan topluluklarının nasıl şekillendiği üzerine araştırma yürütüyorum. Teknofest yarışmaları, hackathonlar ve stajlarda küçük ekiplere liderlik ettim, hattı üstlendim ve etrafındaki ürünü yayına aldım. Aşağıdaki projeler bunun kaydı.',
 
     'experience.title': 'Deneyim',
     'skills.title': 'Yetenekler & araçlar',
     'skills.group.languages': 'Diller',
+    'skills.group.llm': 'LLM & ajanlar',
     'skills.group.aiml': 'Yapay Zekâ / ML',
     'skills.group.mobileGame': 'Mobil & Oyun',
     'skills.group.tools': 'Araçlar & altyapı',

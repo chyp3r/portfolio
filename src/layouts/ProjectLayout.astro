@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import Base from './Base.astro';
 import StatusBadge from '../components/StatusBadge.astro';
+import ProjectPlaceholder from '../components/ProjectPlaceholder.astro';
 import { SITE } from '../consts';
 import type { ProjectEntry } from '../lib/content';
 import { slugOf } from '../lib/content';
@@ -71,43 +71,12 @@ const workLd = {
 
     <div class="mt-12 grid gap-10 lg:grid-cols-[1fr_16rem]">
       <div class="order-2 lg:order-1">
-        {
-          data.cover && (
-            <Image
-              src={data.cover}
-              alt={data.title}
-              widths={[600, 960, 1400]}
-              sizes="(min-width: 1024px) 720px, 100vw"
-              class="w-full rounded-[var(--radius-card)] border border-border bg-bg-soft shadow-[var(--shadow-card)]"
-            />
-          )
-        }
+        <ProjectPlaceholder title={data.title} category={data.category} variant="hero" />
+
         <div class="prose-content mt-10" data-reveal>
           <Content />
         </div>
 
-        {
-          data.gallery.length > 0 && (
-            <section class="mt-14">
-              <h2 class="eyebrow text-muted">
-                {t('project.gallery')}
-              </h2>
-              <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                {data.gallery.map((img, i) => (
-                  <Image
-                    src={img}
-                    alt={`${data.title} — ${i + 1}`}
-                    widths={[400, 700]}
-                    sizes="(min-width: 640px) 45vw, 90vw"
-                    data-reveal
-                    class="w-full rounded-xl border border-border bg-bg-soft transition-transform duration-500 hover:-translate-y-1"
-                    loading="lazy"
-                  />
-                ))}
-              </div>
-            </section>
-          )
-        }
       </div>
 
       <aside class="order-1 lg:order-2">

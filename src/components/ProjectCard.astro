@@ -1,10 +1,10 @@
 ---
-import { Image } from 'astro:assets';
 import type { ProjectEntry } from '../lib/content';
 import { slugOf } from '../lib/content';
 import { getLocale, useTranslations, localizePath } from '../i18n/utils';
 import type { UIKey } from '../i18n/ui';
 import StatusBadge from './StatusBadge.astro';
+import ProjectPlaceholder from './ProjectPlaceholder.astro';
 
 interface Props {
   project: ProjectEntry;
@@ -19,20 +19,8 @@ const href = localizePath(`/projects/${slugOf(project.id)}`, locale);
 <article data-category={data.category} data-reveal class="card group flex flex-col">
   <a href={href} class="block" tabindex="-1" aria-hidden="true">
     <div class="relative aspect-[16/10] overflow-hidden bg-bg-soft">
-      {
-        data.cover ? (
-          <Image
-            src={data.cover}
-            alt={data.title}
-            widths={[400, 640, 900]}
-            sizes="(min-width: 768px) 30vw, 90vw"
-            class="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]"
-            loading="lazy"
-          />
-        ) : (
-          <div class="card-fallback h-full w-full" />
-        )
-      }
+      <ProjectPlaceholder title={data.title} category={data.category} class="h-full w-full" />
+
       <!-- Bottom fade so the badge row always reads. -->
       <div
         class="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 opacity-70 transition-opacity duration-500 group-hover:opacity-95"

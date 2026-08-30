@@ -554,14 +554,78 @@ body[data-pointer='fine'] .cursor-glow {
   opacity: 1;
 }
 
-/* Cover placeholder for projects with no image. */
-.card-fallback {
-  background-image:
-    radial-gradient(60% 60% at 25% 20%, color-mix(in oklab, var(--color-accent) 45%, transparent), transparent 70%),
-    radial-gradient(55% 55% at 80% 75%, color-mix(in oklab, var(--color-cyan) 45%, transparent), transparent 70%),
-    linear-gradient(135deg, var(--color-bg-soft), var(--color-surface));
-  background-size: 200% 200%;
-  animation: gradient-pan 14s ease-in-out infinite alternate;
+/* Generated cover art (ProjectPlaceholder.astro). */
+.ph {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(
+    150deg,
+    oklch(30% 0.07 var(--ph-hue)),
+    oklch(20% 0.05 calc(var(--ph-hue) + 60))
+  );
+  color: oklch(92% 0.05 var(--ph-hue));
+}
+:root[data-theme='light'] .ph {
+  background: linear-gradient(
+    150deg,
+    oklch(93% 0.05 var(--ph-hue)),
+    oklch(88% 0.04 calc(var(--ph-hue) + 60))
+  );
+  color: oklch(42% 0.11 var(--ph-hue));
+}
+.ph__mesh {
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(circle at 28% 26%, oklch(70% 0.16 var(--ph-hue) / 0.55), transparent 58%),
+    radial-gradient(circle at 78% 74%, oklch(72% 0.15 calc(var(--ph-hue) + 90) / 0.45), transparent 60%);
+  filter: blur(14px);
+  animation: drift-b 24s var(--ease-out-expo) infinite alternate;
+}
+.ph__rings {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: repeating-radial-gradient(
+    circle at 50% 50%,
+    currentColor 0 1px,
+    transparent 1px 22px
+  );
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 72%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 72%);
+}
+.ph__glyph {
+  position: relative;
+  width: 34%;
+  max-width: 7rem;
+  opacity: 0.45;
+  transition: transform 0.9s var(--ease-out-expo);
+}
+.group:hover .ph__glyph {
+  transform: scale(1.12) rotate(-4deg);
+}
+.ph__mono {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  opacity: 0.28;
+}
+.ph--hero {
+  aspect-ratio: 16 / 7;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+}
+.ph--hero .ph__mono {
+  font-size: 4rem;
+  right: 1.6rem;
+  bottom: 1rem;
 }
 
 /* Category filter pills. */

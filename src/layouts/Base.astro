@@ -43,6 +43,10 @@ const personLd = {
   url: SITE.url,
   ...(SITE.email ? { email: `mailto:${SITE.email}` } : {}),
   jobTitle: SITE.role,
+  worksFor: [
+    { '@type': 'Organization', name: 'ASELSAN' },
+    { '@type': 'ResearchOrganization', name: 'ASELLABS AI Laboratory' },
+  ],
   alumniOf: [
     { '@type': 'CollegeOrUniversity', name: 'Hacettepe University' },
     { '@type': 'EducationalOrganization', name: 'Deneyap Technology Workshops' },
