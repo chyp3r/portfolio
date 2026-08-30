@@ -42,7 +42,7 @@ const workLd = {
 };
 ---
 
-<Base title={data.title} description={data.summary} type="article" image={SITE.ogImage}>
+<Base title={data.title} description={data.summary} type="article">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(workLd)} />
 
   <article class="container-page py-14 sm:py-20">

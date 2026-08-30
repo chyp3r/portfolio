@@ -4,10 +4,12 @@ export const SITE = {
   url: 'https://chyp3r.github.io',
   name: 'Gökdeniz Kuruca',
   role: 'AI / ML & Mobile Developer',
-  email: 'denizoyunda2112@gmail.com',
+  /** Set an address here to expose a mailto contact + JSON-LD email. Empty = contact via socials only. */
+  email: '',
   /** Optional CV file. Drop a PDF at `public/cv.pdf` and the button appears automatically. */
   cvPath: '/cv.pdf',
-  ogImage: '/og-default.jpg',
+  /** Path relative to the site base; Base.astro prefixes `import.meta.env.BASE_URL`. */
+  ogImage: 'og-default.jpg',
 } as const;
 
 export const SOCIALS = [

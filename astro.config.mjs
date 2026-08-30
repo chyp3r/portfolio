@@ -5,10 +5,12 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// Deployed as a GitHub **user** site: https://chyp3r.github.io  (repo: chyp3r/chyp3r.github.io)
-// If you ever move this back to a project page, set `base: '/portfolio'`.
+// Deployed as a GitHub **project** site: https://chyp3r.github.io/portfolio/
+// (repo: chyp3r/portfolio). If you rename the repo to `chyp3r.github.io`, remove
+// `base` (or set it to '/') and redeploy.
 export default defineConfig({
   site: 'https://chyp3r.github.io',
+  base: '/portfolio',
   trailingSlash: 'ignore',
   i18n: {
     defaultLocale: 'en',

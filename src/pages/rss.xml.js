@@ -12,7 +12,7 @@ export async function GET(context) {
       title: p.data.title,
       description: p.data.description,
       pubDate: p.data.pubDate,
-      link: `/blog/${slugOf(p.id)}/`,
+      link: `${import.meta.env.BASE_URL}blog/${slugOf(p.id)}/`.replace(/\/{2,}/g, '/'),
     })),
   });
 }

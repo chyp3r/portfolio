@@ -57,7 +57,7 @@ export const ui = {
 
     'contact.title': 'Contact',
     'contact.body': 'Open to collaboration, research and internship conversations.',
-    'contact.email': 'Email me',
+    'contact.email': 'Get in touch',
 
     'project.overview': 'Overview',
     'project.role': 'Role',
@@ -149,7 +149,7 @@ export const ui = {
 
     'contact.title': 'İletişim',
     'contact.body': 'İş birliği, araştırma ve staj görüşmelerine açığım.',
-    'contact.email': 'E-posta gönder',
+    'contact.email': 'İletişime geç',
 
     'project.overview': 'Genel bakış',
     'project.role': 'Rol',

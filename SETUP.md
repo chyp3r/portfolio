@@ -38,37 +38,26 @@ in both languages.
 - **OG image** — `public/og-default.jpg` is a recovered nebula image; swap it for
   a branded 1200×630 card if you want.
 
-## 3. Move the repo to a user site
+## 3. Deploy (current setup: project site)
 
-The config targets `https://chyp3r.github.io` with `base: '/'`.
+Repo `chyp3r/portfolio` → served at **`https://chyp3r.github.io/portfolio/`**.
+`astro.config.mjs` is set to match: `site: 'https://chyp3r.github.io'`, `base: '/portfolio'`.
 
-1. On GitHub, rename the repo `chyp3r/portfolio` → `chyp3r/chyp3r.github.io`
-   (Settings → General → Repository name). The `origin` remote updates automatically
-   on GitHub's side; update your local remote:
-   ```bash
-   git remote set-url origin https://github.com/chyp3r/chyp3r.github.io.git
-   ```
-2. Move work onto `main` (the old default branch is `gh-pages`):
-   ```bash
-   git checkout -b main
-   ```
-3. Commit and push:
-   ```bash
-   git add -A
-   git commit -m "Rebuild portfolio on Astro (bilingual, 2026)"
-   git push -u origin main
-   ```
-4. Repo **Settings → Pages → Build and deployment → Source → GitHub Actions**.
-5. The `Deploy to GitHub Pages` workflow runs on every push to `main`.
+1. `main` is already pushed. One-time: repo **Settings → Pages → Build and
+   deployment → Source → "GitHub Actions"** (the workflow token can't do this via
+   API, so it must be clicked once).
+2. After that, every push to `main` builds and publishes via
+   `.github/workflows/deploy.yml`.
+3. Optional cleanup: **Settings → General → Default branch → `main`**, then
+   `git push origin --delete gh-pages`.
 
-> Staying on a project page instead? Set `base: '/portfolio'` in `astro.config.mjs`,
-> keep `site: 'https://chyp3r.github.io'`, and deploy from a `portfolio` repo. All
-> internal links already go through `localizePath()` / `BASE_URL`, so they adapt.
+> **Moving to a user site** (`https://chyp3r.github.io`, no `/portfolio`): rename
+> the repo to `chyp3r.github.io`, then in `astro.config.mjs` delete the `base` line
+> (or set `base: '/'`) and push. All internal links go through `localizePath()` /
+> `BASE_URL`, so they adapt automatically.
 
-## 4. Custom domain (later, optional)
-
-Add `public/CNAME` with the domain, set `site` to `https://yourdomain.com`,
-`base` to `'/'`, and point DNS at GitHub Pages.
+> **Custom domain**: add `public/CNAME` with the domain, set `site` to
+> `https://yourdomain.com`, remove `base`, point DNS at GitHub Pages.
 
 ## What was removed
 
