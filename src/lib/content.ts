@@ -12,7 +12,10 @@ const notDraft = (draft: boolean) => import.meta.env.DEV || !draft;
 
 /** All projects for a locale, sorted newest-first (year desc, then `order` desc, then title). */
 export async function getProjects(locale: Locale): Promise<ProjectEntry[]> {
-  const all = await getCollection('projects', (e) => localeOf(e.id) === locale && notDraft(e.data.draft));
+  const all = await getCollection(
+    'projects',
+    (e) => localeOf(e.id) === locale && notDraft(e.data.draft)
+  );
   return all.sort(
     (a, b) =>
       b.data.year - a.data.year ||
@@ -32,6 +35,9 @@ export async function getProjectSiblings(entry: ProjectEntry) {
 }
 
 export async function getPosts(locale: Locale): Promise<BlogEntry[]> {
-  const all = await getCollection('blog', (e) => localeOf(e.id) === locale && notDraft(e.data.draft));
+  const all = await getCollection(
+    'blog',
+    (e) => localeOf(e.id) === locale && notDraft(e.data.draft)
+  );
   return all.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 }

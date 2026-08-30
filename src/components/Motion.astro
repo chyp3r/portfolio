@@ -11,9 +11,19 @@
 
 <script>
   const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /** Scroll-driven CSS animations handle the scrubbed scenes where supported. */
+  const scrollTimeline = () =>
+    !reduced() &&
+    typeof CSS !== 'undefined' &&
+    CSS.supports?.('animation-timeline', 'view()') === true &&
+    !document.documentElement.hasAttribute('data-force-js-motion');
+
   let cleanups: (() => void)[] = [];
 
   function revealOnScroll() {
+    // CSS owns the reveals when scroll timelines are available.
+    if (scrollTimeline()) return;
     const items = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
     if (!items.length) return;
     if (reduced()) {
@@ -54,16 +64,96 @@
     cleanups.push(() => window.clearTimeout(failsafe));
   }
 
+  /** Cursor spotlight + a little 3D tilt, from one shared pointer listener. */
   function cardSpotlight() {
+    const tiltOk =
+      window.matchMedia('(pointer: fine) and (min-width: 768px)').matches && !reduced();
+
     const onMove = (e: PointerEvent) => {
       const card = (e.target as HTMLElement)?.closest?.<HTMLElement>('.card');
       if (!card) return;
       const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      card.style.setProperty('--my', `${e.clientY - r.top}px`);
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      card.style.setProperty('--mx', `${x}px`);
+      card.style.setProperty('--my', `${y}px`);
+      if (!tiltOk) return;
+      // −1..1 from the card centre, damped so it reads as depth, not a gimmick.
+      card.style.setProperty('--tx', String((x / r.width - 0.5) * 2));
+      card.style.setProperty('--ty', String((y / r.height - 0.5) * 2));
+      card.dataset.tilt = 'on';
     };
+
+    const onLeave = (e: PointerEvent) => {
+      const card = (e.target as HTMLElement)?.closest?.<HTMLElement>('.card');
+      if (!card) return;
+      card.style.setProperty('--tx', '0');
+      card.style.setProperty('--ty', '0');
+      delete card.dataset.tilt;
+    };
+
     document.addEventListener('pointermove', onMove, { passive: true });
-    cleanups.push(() => document.removeEventListener('pointermove', onMove));
+    document.addEventListener('pointerout', onLeave, { passive: true });
+    cleanups.push(() => {
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerout', onLeave);
+    });
+  }
+
+  /** The neural orb leans toward the pointer. */
+  function orbTilt() {
+    const orb = document.querySelector<HTMLElement>('.orb');
+    if (!orb || reduced() || !window.matchMedia('(pointer: fine)').matches) return;
+
+    const onMove = (e: PointerEvent) => {
+      const x = e.clientX / window.innerWidth - 0.5;
+      const y = e.clientY / window.innerHeight - 0.5;
+      orb.style.setProperty('--orb-tx', (x * 2).toFixed(3));
+      orb.style.setProperty('--orb-ty', (y * 2).toFixed(3));
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    cleanups.push(() => window.removeEventListener('pointermove', onMove));
+  }
+
+  /**
+   * Publishes scroll speed as `--scroll-v` (0..1) on <html>. One rAF loop that
+   * parks itself once the page is still, so idle pages cost nothing.
+   */
+  function scrollVelocity() {
+    if (reduced()) return;
+    const root = document.documentElement;
+    let last = window.scrollY;
+    let v = 0;
+    let raf = 0;
+    let running = false;
+
+    const tick = () => {
+      const now = window.scrollY;
+      const delta = Math.abs(now - last);
+      last = now;
+      v += (Math.min(delta / 60, 1) - v) * 0.16;
+      root.style.setProperty('--scroll-v', v.toFixed(3));
+      if (v < 0.002 && delta === 0) {
+        root.style.setProperty('--scroll-v', '0');
+        running = false;
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    const kick = () => {
+      if (running) return;
+      running = true;
+      raf = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener('scroll', kick, { passive: true });
+    cleanups.push(() => {
+      window.removeEventListener('scroll', kick);
+      cancelAnimationFrame(raf);
+      running = false;
+      root.style.removeProperty('--scroll-v');
+    });
   }
 
   function pointerGlow() {
@@ -191,14 +281,151 @@
     });
   }
 
+  /** Buttons drift a little toward the cursor. */
+  function magnetic() {
+    if (reduced() || !window.matchMedia('(pointer: fine)').matches) return;
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('.magnetic'));
+    if (!targets.length) return;
+
+    const onMove = (e: PointerEvent) => {
+      targets.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        const reach = Math.max(r.width, r.height) * 0.9;
+        const dist = Math.hypot(dx, dy);
+        const pull = dist < reach ? 1 - dist / reach : 0;
+        el.style.setProperty('--mgx', `${dx * 0.22 * pull}px`);
+        el.style.setProperty('--mgy', `${dy * 0.22 * pull}px`);
+      });
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    cleanups.push(() => {
+      window.removeEventListener('pointermove', onMove);
+      targets.forEach((el) => {
+        el.style.removeProperty('--mgx');
+        el.style.removeProperty('--mgy');
+      });
+    });
+  }
+
+  /** Hero stats count up the first time they scroll into view. */
+  function counters() {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>('[data-count]'));
+    if (!nodes.length) return;
+    if (reduced()) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          io.unobserve(el);
+          const target = Number(el.dataset.count);
+          if (!Number.isFinite(target)) return;
+          const suffix = el.dataset.countSuffix ?? '';
+          const start = performance.now();
+          const dur = 1100;
+          const step = (now: number) => {
+            const p = Math.min((now - start) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = `${Math.round(target * eased)}${suffix}`;
+            if (p < 1) requestAnimationFrame(step);
+          };
+          el.textContent = `0${suffix}`;
+          requestAnimationFrame(step);
+        });
+      },
+      { threshold: 0.6 }
+    );
+    nodes.forEach((n) => io.observe(n));
+    cleanups.push(() => io.disconnect());
+  }
+
+  /** Back-to-top button with a scroll-progress ring. */
+  function backToTop() {
+    const btn = document.querySelector<HTMLElement>('[data-to-top]');
+    if (!btn) return;
+    const ring = btn.querySelector<SVGCircleElement>('[data-to-top-ring]');
+    const len = ring ? (ring.getTotalLength?.() ?? 0) : 0;
+    if (ring && len) {
+      ring.style.strokeDasharray = String(len);
+      ring.style.strokeDashoffset = String(len);
+    }
+
+    const onClick = () => window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' });
+    btn.addEventListener('click', onClick);
+
+    const update = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      btn.dataset.show = window.scrollY > window.innerHeight * 0.8 ? 'true' : 'false';
+      if (ring && len) ring.style.strokeDashoffset = String(len * (1 - p));
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+    cleanups.push(() => {
+      btn.removeEventListener('click', onClick);
+      window.removeEventListener('scroll', update);
+    });
+  }
+
+  /** Manifesto word lighting for browsers without scroll timelines. */
+  function manifestoFallback() {
+    const text = document.querySelector<HTMLElement>('[data-manifesto]');
+    if (!text) return;
+    const words = Array.from(text.querySelectorAll<HTMLElement>('.manifesto__word'));
+    if (!words.length) return;
+
+    if (scrollTimeline() || reduced()) {
+      if (reduced()) words.forEach((w) => w.classList.add('is-lit'));
+      return;
+    }
+
+    const scene = text.closest<HTMLElement>('.manifesto');
+    if (!scene) return;
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = scene.getBoundingClientRect();
+      const travel = r.height - window.innerHeight;
+      const p = travel > 0 ? Math.min(Math.max(-r.top / travel, 0), 1) : 0;
+      // Same 18%–76% window the CSS ranges use.
+      const eased = (p - 0.18) / 0.58;
+      const lit = Math.round(Math.min(Math.max(eased, 0), 1) * words.length);
+      words.forEach((w, i) => w.classList.toggle('is-lit', i < lit));
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+    cleanups.push(() => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    });
+  }
+
   function init() {
     cleanups.forEach((fn) => fn());
     cleanups = [];
     revealOnScroll();
     cardSpotlight();
+    scrollVelocity();
+    orbTilt();
     pointerGlow();
     scrollDriven();
     rotator();
+    magnetic();
+    manifestoFallback();
+    counters();
+    backToTop();
   }
 
   document.addEventListener('astro:page-load', init);

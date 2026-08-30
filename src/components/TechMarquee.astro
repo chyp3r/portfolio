@@ -37,16 +37,25 @@ const items = order
         <p class="eyebrow mb-5 text-center text-muted">{t('hero.stack')}</p>
       </div>
       <div class="marquee" aria-hidden="true">
-        <div class="marquee__track">
-          {[0, 1].map(() => (
-            <ul class="flex shrink-0 items-center gap-12 pr-12">
-              {items.map((i) => (
-                <li class="tech-logo" title={i.label}>
-                  <img src={i.src} alt="" width="34" height="34" loading="lazy" decoding="async" />
-                </li>
-              ))}
-            </ul>
-          ))}
+        <div class="marquee__shift">
+          <div class="marquee__track">
+            {[0, 1].map(() => (
+              <ul class="flex shrink-0 items-center gap-12 pr-12">
+                {items.map((i) => (
+                  <li class="tech-logo" title={i.label}>
+                    <img
+                      src={i.src}
+                      alt=""
+                      width="34"
+                      height="34"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
         </div>
       </div>
       <p class="sr-only">{items.map((i) => i.label).join(', ')}</p>

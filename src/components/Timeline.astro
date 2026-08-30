@@ -144,7 +144,7 @@ const items: Item[] = [
 ---
 
 <section class="container-page py-20 sm:py-28">
-  <SectionHeading id="experience" title={t('experience.title')} />
+  <SectionHeading id="experience" index={3} title={t('experience.title')} />
 
   <div class="relative mt-12 pl-6 sm:pl-8">
     <div class="rail" data-rail aria-hidden="true"></div>
@@ -154,7 +154,10 @@ const items: Item[] = [
         items.map((item) => {
           const [title, detail] = item[locale];
           return (
-            <li data-reveal class="tl-item group relative grid grid-cols-1 gap-x-6 py-6 sm:grid-cols-[7rem_1fr]">
+            <li
+              data-reveal
+              class="tl-item group relative grid grid-cols-1 gap-x-6 py-6 sm:grid-cols-[7rem_1fr]"
+            >
               <span class="tl-dot" aria-hidden="true" />
               <span class="font-mono text-sm text-accent">{item.period}</span>
               <div>

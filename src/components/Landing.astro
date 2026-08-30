@@ -3,6 +3,8 @@ import { getLocale } from '../i18n/utils';
 import { getProjects } from '../lib/content';
 import Hero from './Hero.astro';
 import TechMarquee from './TechMarquee.astro';
+import Manifesto from './Manifesto.astro';
+import Showcase from './Showcase.astro';
 import WorkSection from './WorkSection.astro';
 import About from './About.astro';
 import Timeline from './Timeline.astro';
@@ -12,11 +14,17 @@ import Contact from './Contact.astro';
 
 const locale = getLocale(Astro.url);
 const projects = await getProjects(locale);
+
+// The first three (newest, highest order) headline the showcase; the grid keeps them too.
+const featured = projects.slice(0, 3);
+const featuredIds = new Set(featured.map((p) => p.id));
 ---
 
 <Hero projectCount={projects.length} />
 <TechMarquee />
-<WorkSection projects={projects} />
+<Manifesto />
+<Showcase projects={featured} />
+<WorkSection projects={projects} featuredIds={featuredIds} />
 <About />
 <Timeline />
 <SkillGroups />

@@ -22,9 +22,7 @@ const byCategory = CATEGORIES.map((cat) => ({
   {
     byCategory.map((group) => (
       <section data-reveal>
-        <h2 class="eyebrow">
-          {t(`cat.${group.cat}` as UIKey)}
-        </h2>
+        <h2 class="eyebrow">{t(`cat.${group.cat}` as UIKey)}</h2>
         <ul class="mt-4 border-t border-border">
           {group.items.map((p) => (
             <li class="border-b border-border">

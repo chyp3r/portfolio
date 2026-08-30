@@ -1,0 +1,54 @@
+---
+import { getLocale, useTranslations } from '../i18n/utils';
+
+/**
+ * Pinned statement scene. The section is taller than the viewport; its inner
+ * block sticks while each word lights up on its own slice of the scroll range.
+ * Ranges are precomputed here so the CSS stays declarative.
+ */
+const t = useTranslations(getLocale(Astro.url));
+
+const lines = [
+  t('manifesto.line.1'),
+  t('manifesto.line.2'),
+  t('manifesto.line.3'),
+  t('manifesto.line.4'),
+];
+const words = lines.map((line) => line.split(' '));
+const total = words.reduce((n, w) => n + w.length, 0);
+
+// Words light between 18% and 76% of the scene, each over a 10% window.
+const START = 18;
+const SPAN = 58;
+let cursor = 0;
+const ranges = words.map((line) =>
+  line.map(() => {
+    const from = START + (cursor / Math.max(total - 1, 1)) * SPAN;
+    cursor += 1;
+    return `animation-range: cover ${from.toFixed(2)}% cover ${(from + 10).toFixed(2)}%`;
+  })
+);
+---
+
+<section class="manifesto" aria-label={t('manifesto.caption')}>
+  <div class="manifesto__pin">
+    <div class="container-page">
+      <p class="eyebrow manifesto__caption">{t('manifesto.caption')}</p>
+      <p class="manifesto__text" data-manifesto>
+        {
+          words.map((line, li) => (
+            <span
+              class:list={['manifesto__line', li === words.length - 1 && 'manifesto__line--accent']}
+            >
+              {line.map((word, wi) => (
+                <span class="manifesto__word" style={ranges[li][wi]}>
+                  {word}
+                </span>
+              ))}
+            </span>
+          ))
+        }
+      </p>
+    </div>
+  </div>
+</section>

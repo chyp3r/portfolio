@@ -22,14 +22,11 @@ const initials = SITE.name
   .join('');
 ---
 
-<header
-  data-header
-  class="nav-shell sticky top-0 z-40"
->
+<header data-header transition:animate="fade" class="nav-shell sticky top-0 z-40">
   <div class="nav-shell__bg" aria-hidden="true"></div>
 
   <nav class="container-page flex h-16 items-center justify-between gap-4" aria-label="Primary">
-    <a href={home} class="group inline-flex items-center gap-2.5">
+    <a href={home} class="nav-mark group">
       <span
         class="relative grid h-8 w-8 place-items-center overflow-hidden rounded-xl text-[11px] font-bold text-[var(--color-accent-contrast)] transition-transform duration-500 group-hover:rotate-[8deg] group-hover:scale-110"
         style="background-image: linear-gradient(135deg, var(--color-accent), var(--color-magenta) 55%, var(--color-cyan));"
@@ -66,8 +63,16 @@ const initials = SITE.name
           class="icon-btn cursor-pointer list-none text-text [&::-webkit-details-marker]:hidden"
           aria-label="Menu"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M3 6h18M3 12h18M3 18h18" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M3 6h18M3 12h18M3 18h18"></path>
           </svg>
         </summary>
         <ul class="glass absolute right-0 mt-3 w-52 rounded-2xl p-2">

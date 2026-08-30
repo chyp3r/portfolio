@@ -8,8 +8,10 @@ import ProjectCard from './ProjectCard.astro';
 
 interface Props {
   projects: ProjectEntry[];
+  /** Cards already rendered by the showcase — they hand over the morph names. */
+  featuredIds?: Set<string>;
 }
-const { projects } = Astro.props;
+const { projects, featuredIds } = Astro.props;
 const locale = getLocale(Astro.url);
 const t = useTranslations(locale);
 
@@ -28,15 +30,26 @@ const filters = [
 <section class="container-page py-20 sm:py-28">
   <SectionHeading
     id="work"
+    index={1}
     eyebrow={t('hero.eyebrow')}
     title={t('work.title')}
     subtitle={t('work.subtitle')}
   />
 
-  <div class="mt-9 flex flex-wrap gap-2" role="group" aria-label={t('work.title')} data-filter-group>
+  <div
+    class="mt-9 flex flex-wrap gap-2"
+    role="group"
+    aria-label={t('work.title')}
+    data-filter-group
+  >
     {
       filters.map((f, i) => (
-        <button type="button" data-filter={f.key} aria-pressed={i === 0 ? 'true' : 'false'} class="filter-pill">
+        <button
+          type="button"
+          data-filter={f.key}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+          class="filter-pill"
+        >
           {f.label}
           <span class="filter-pill__count">{f.count}</span>
         </button>
@@ -44,49 +57,106 @@ const filters = [
     }
   </div>
 
-  <div class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-project-grid>
-    {projects.map((project) => <ProjectCard project={project} />)}
+  <div class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-project-grid data-page-size="10">
+    {
+      projects.map((project) => (
+        <ProjectCard project={project} morph={!featuredIds?.has(project.id)} />
+      ))
+    }
   </div>
+
+  <div class="mt-10 flex justify-center">
+    <button type="button" class="btn btn-ghost" data-load-more hidden>
+      <span data-load-more-label>{t('work.more')}</span>
+      <span class="font-mono text-xs opacity-70" data-load-more-count></span>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M12 5v14m0 0 6-6m-6 6-6-6"></path>
+      </svg>
+    </button>
+  </div>
+
+  <p class="sr-only" role="status" data-work-status></p>
 </section>
 
 <script>
-  function initFilters() {
+  function initWork() {
+    const remainingLabel = document.documentElement.lang === 'tr' ? 'kaldı' : 'remaining';
     const group = document.querySelector<HTMLElement>('[data-filter-group]');
     const grid = document.querySelector<HTMLElement>('[data-project-grid]');
+    const more = document.querySelector<HTMLButtonElement>('[data-load-more]');
+    const count = document.querySelector<HTMLElement>('[data-load-more-count]');
+    const status = document.querySelector<HTMLElement>('[data-work-status]');
     if (!group || !grid || group.dataset.bound === 'true') return;
     group.dataset.bound = 'true';
 
     const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-category]'));
+    const pageSize = Number(grid.dataset.pageSize ?? 10);
+
+    let filter = 'all';
+    let shown = pageSize;
+
+    function render(animate: boolean) {
+      const matching = cards.filter((c) => filter === 'all' || c.dataset.category === filter);
+      const visible = matching.slice(0, shown);
+
+      cards.forEach((card) => {
+        if (!visible.includes(card)) {
+          card.hidden = true;
+          card.classList.remove('is-in');
+          return;
+        }
+        const wasHidden = card.hidden;
+        card.hidden = false;
+        // On first paint the scroll observer owns the entrance animation.
+        if (!animate) return;
+        if (wasHidden) {
+          card.classList.remove('is-in', 'just-added');
+          card.style.setProperty('--d', '0ms');
+          void card.offsetWidth; // reflow, so the animation replays
+          card.classList.add('just-added');
+        }
+        card.classList.add('is-in');
+      });
+
+      const left = matching.length - visible.length;
+      if (more) {
+        more.hidden = left <= 0;
+        if (count) count.textContent = left > 0 ? `${left} ${remainingLabel}` : '';
+      }
+      if (status) status.textContent = `${visible.length} / ${matching.length}`;
+    }
 
     group.addEventListener('click', (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
       if (!btn) return;
-      const value = btn.dataset.filter;
       group
         .querySelectorAll('[data-filter]')
         .forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-
-      let shown = 0;
-      cards.forEach((card) => {
-        const show = value === 'all' || card.dataset.category === value;
-        if (show) {
-          card.hidden = false;
-          // Re-run the entrance animation so filtering feels alive.
-          card.classList.remove('is-in');
-          card.style.setProperty('--d', `${Math.min(shown, 8) * 45}ms`);
-          shown += 1;
-          requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('is-in')));
-        } else {
-          card.classList.remove('is-in');
-          window.setTimeout(() => {
-            if (!card.classList.contains('is-in')) card.hidden = true;
-          }, 220);
-        }
-      });
+      filter = btn.dataset.filter ?? 'all';
+      shown = pageSize;
+      render(true);
     });
+
+    more?.addEventListener('click', () => {
+      shown += pageSize;
+      render(true);
+      // Keep focus useful: jump to the first newly revealed card.
+      const firstNew = cards.filter((c) => !c.hidden)[shown - pageSize];
+      firstNew?.querySelector('a')?.focus({ preventScroll: true });
+    });
+
+    render(false);
   }
 
-  document.addEventListener('astro:page-load', initFilters);
-  if (document.readyState !== 'loading') initFilters();
-  else document.addEventListener('DOMContentLoaded', initFilters, { once: true });
+  document.addEventListener('astro:page-load', initWork);
+  if (document.readyState !== 'loading') initWork();
+  else document.addEventListener('DOMContentLoaded', initWork, { once: true });
 </script>

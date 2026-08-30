@@ -8,17 +8,23 @@ import ProjectPlaceholder from './ProjectPlaceholder.astro';
 
 interface Props {
   project: ProjectEntry;
+  /** Carry the shared view-transition names into the project page. */
+  morph?: boolean;
 }
-const { project } = Astro.props;
+const { project, morph = true } = Astro.props;
 const locale = getLocale(Astro.url);
 const t = useTranslations(locale);
 const { data } = project;
-const href = localizePath(`/projects/${slugOf(project.id)}`, locale);
+const slug = slugOf(project.id);
+const href = localizePath(`/projects/${slug}`, locale);
 ---
 
 <article data-category={data.category} data-reveal class="card group flex flex-col">
   <a href={href} class="block" tabindex="-1" aria-hidden="true">
-    <div class="relative aspect-[16/10] overflow-hidden bg-bg-soft">
+    <div
+      class="relative aspect-[16/10] overflow-hidden bg-bg-soft"
+      transition:name={morph ? `project-cover-${slug}` : undefined}
+    >
       <ProjectPlaceholder title={data.title} category={data.category} class="h-full w-full" />
 
       <!-- Bottom fade so the badge row always reads. -->
@@ -35,7 +41,10 @@ const href = localizePath(`/projects/${slugOf(project.id)}`, locale);
 
   <div class="relative z-[2] flex flex-1 flex-col gap-3 p-5">
     <div class="flex items-start justify-between gap-3">
-      <h3 class="font-display text-lg font-semibold leading-tight">
+      <h3
+        class="font-display text-lg font-semibold leading-tight"
+        transition:name={morph ? `project-title-${slug}` : undefined}
+      >
         <a href={href} class="after:absolute after:inset-0">{data.title}</a>
       </h3>
       <span class="shrink-0 pt-1 font-mono text-xs text-muted">{data.year}</span>
@@ -47,8 +56,15 @@ const href = localizePath(`/projects/${slugOf(project.id)}`, locale);
         class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-border text-muted transition-all duration-500 group-hover:translate-x-1 group-hover:border-accent group-hover:text-accent"
         aria-hidden="true"
       >
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14m0 0-5-5m5 5-5 5" />
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M5 12h14m0 0-5-5m5 5-5 5"></path>
         </svg>
       </span>
     </div>

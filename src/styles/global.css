@@ -93,7 +93,9 @@
     line-height: 1.6;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    /* `clip`, not `hidden`: hidden turns the body into a scroll container,
+       which silently breaks every `position: sticky` on the page. */
+    overflow-x: clip;
   }
 
   h1,
@@ -324,6 +326,16 @@ body[data-pointer='fine'] .cursor-glow {
 .nav-shell[data-scrolled='true'] {
   box-shadow: 0 10px 40px -22px oklch(0% 0 0 / 0.55);
 }
+.nav-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  transform-origin: 0 50%;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.nav-shell[data-scrolled='true'] .nav-mark {
+  transform: scale(0.92);
+}
 .nav-shell[data-scrolled='true'] .nav-shell__bg {
   opacity: 1;
   border-bottom-color: var(--glass-border);
@@ -408,6 +420,7 @@ body[data-pointer='fine'] .cursor-glow {
 }
 
 .rule {
+  transform-origin: 0 50%;
   height: 1px;
   border: 0;
   background: linear-gradient(
@@ -522,6 +535,7 @@ body[data-pointer='fine'] .cursor-glow {
   border-radius: var(--radius-card);
   border: 1px solid var(--color-border);
   background: color-mix(in oklab, var(--color-surface) 85%, transparent);
+  background-clip: padding-box;
   overflow: hidden;
   isolation: isolate;
   transition:
@@ -543,6 +557,17 @@ body[data-pointer='fine'] .cursor-glow {
     transparent 70%
   );
 }
+.card[data-tilt='on'] {
+  transform: perspective(1100px) translateY(-6px) rotateX(calc(var(--ty, 0) * -3.2deg))
+    rotateY(calc(var(--tx, 0) * 3.6deg));
+}
+.card[data-tilt='on'] .ph {
+  transform: translate3d(calc(var(--tx, 0) * -8px), calc(var(--ty, 0) * -8px), 0) scale(1.06);
+}
+.ph {
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
 .card:hover {
   transform: translateY(-6px);
   border-color: color-mix(in oklab, var(--color-accent) 45%, var(--color-border));
@@ -581,7 +606,11 @@ body[data-pointer='fine'] .cursor-glow {
   inset: -30%;
   background:
     radial-gradient(circle at 28% 26%, oklch(70% 0.16 var(--ph-hue) / 0.55), transparent 58%),
-    radial-gradient(circle at 78% 74%, oklch(72% 0.15 calc(var(--ph-hue) + 90) / 0.45), transparent 60%);
+    radial-gradient(
+      circle at 78% 74%,
+      oklch(72% 0.15 calc(var(--ph-hue) + 90) / 0.45),
+      transparent 60%
+    );
   filter: blur(14px);
   animation: drift-b 24s var(--ease-out-expo) infinite alternate;
 }
@@ -626,6 +655,11 @@ body[data-pointer='fine'] .cursor-glow {
   font-size: 4rem;
   right: 1.6rem;
   bottom: 1rem;
+}
+
+/* Cards revealed by the "show more" control announce themselves once. */
+.just-added {
+  animation: st-scale 0.7s var(--ease-out-expo) both;
 }
 
 /* Category filter pills. */
@@ -687,6 +721,79 @@ body[data-pointer='fine'] .cursor-glow {
   opacity: 0.4;
   background: radial-gradient(circle, var(--color-magenta), transparent 68%);
   animation: drift-c 22s ease-in-out infinite alternate;
+}
+
+/* Light sweep across a card on hover (stays inside the clipped corners). */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  transform: translateX(-130%) skewX(-16deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--color-text) 12%, transparent),
+    transparent
+  );
+  transition: transform 0.95s var(--ease-out-expo);
+}
+.card:hover::after {
+  transform: translateX(130%) skewX(-16deg);
+}
+
+/* Magnetic pull on primary controls (JS sets --mgx / --mgy). */
+.magnetic {
+  transform: translate3d(var(--mgx, 0px), var(--mgy, 0px), 0);
+}
+.magnetic:hover {
+  transform: translate3d(var(--mgx, 0px), calc(var(--mgy, 0px) - 2px), 0);
+}
+
+/* Floating back-to-top control. */
+.to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 30;
+  display: inline-flex;
+  height: 2.9rem;
+  width: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  opacity: 0;
+  transform: translateY(14px) scale(0.9);
+  pointer-events: none;
+  transition:
+    opacity 0.45s var(--ease-out-expo),
+    transform 0.45s var(--ease-spring);
+}
+.to-top[data-show='true'] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.to-top:hover {
+  transform: translateY(-3px);
+}
+.to-top__ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.to-top__ring circle {
+  fill: none;
+  stroke-width: 2;
+}
+
+/* Section index numbers. */
+.section-index {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: color-mix(in oklab, var(--color-accent) 70%, var(--color-muted));
 }
 
 /* Chips (skills, tags). */
@@ -881,7 +988,26 @@ body[data-pointer='fine'] .cursor-glow {
   display: flex;
   width: max-content;
   gap: 3rem;
+  /* Constant speed — changing the duration mid-flight makes the strip jump. */
   animation: marquee 38s linear infinite;
+}
+/* Scroll adds a gentle offset on a separate layer, leaving the loop untouched. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee__shift {
+      animation: marquee-shift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+@keyframes marquee-shift {
+  from {
+    transform: translateX(3.5%);
+  }
+  to {
+    transform: translateX(-3.5%);
+  }
 }
 .marquee:hover .marquee__track {
   animation-play-state: paused;
@@ -952,6 +1078,39 @@ body[data-pointer='fine'] .cursor-glow {
   transition: transform 0.25s linear;
 }
 
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+    .tl-item {
+      animation: tl-in var(--ease-out-expo) both;
+      animation-timeline: view();
+      animation-range: entry 6% cover 32%;
+    }
+    .tl-item:nth-child(even) {
+      animation-name: tl-in-alt;
+    }
+  }
+}
+@keyframes tl-in {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tl-in-alt {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .tl-item + .tl-item {
   border-top: 1px solid var(--color-border);
 }
@@ -980,6 +1139,34 @@ body[data-pointer='fine'] .cursor-glow {
   box-shadow: 0 0 0 6px color-mix(in oklab, var(--color-accent) 18%, transparent);
 }
 
+.footer-parallax {
+  will-change: transform;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .footer-parallax {
+      animation: footer-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 70%;
+    }
+    .rule {
+      animation: st-draw both;
+      animation-timeline: view();
+      animation-range: entry 25% cover 45%;
+    }
+  }
+}
+@keyframes footer-rise {
+  from {
+    transform: translateY(38px);
+    opacity: 0.35;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
 .watermark {
   font-family: var(--font-display);
   font-weight: 700;
@@ -994,6 +1181,412 @@ body[data-pointer='fine'] .cursor-glow {
   background-clip: text;
   color: transparent;
   user-select: none;
+}
+
+/* ----------------------------------------------------------------------------
+   Scroll-driven cinema
+   ---------------------------------------------------------------------------
+   Everything below runs on the compositor via `animation-timeline`, so scenes
+   scrub with the scroll position and rewind when you scroll back. Browsers
+   without support keep the IntersectionObserver path in Motion.astro.
+---------------------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Reveals become scrubbed instead of one-shot. */
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
+      animation: st-rise both;
+      animation-timeline: view();
+      animation-range: entry 4% cover 34%;
+    }
+
+    .st-parallax {
+      animation: st-parallax linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+
+    .st-scale {
+      animation: st-scale both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+
+    /* Draws a section's hairline in as the heading arrives. */
+    .st-draw {
+      animation: st-draw both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+  }
+}
+
+/* Hero scrubs itself out of the way as the first screen is scrolled past. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+    .hero-lead,
+    .hero-trail,
+    .hero-orbits {
+      animation-timeline: scroll(root);
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+    }
+    .hero-lead {
+      animation-name: hero-lead-out;
+      animation-range: 0 88vh;
+    }
+    .hero-trail {
+      animation-name: hero-trail-out;
+      animation-range: 0 62vh;
+    }
+    .hero-orbits {
+      animation-name: hero-orbits-out;
+      animation-range: 0 100vh;
+    }
+    .ambient .aurora {
+      animation-name: ambient-drift;
+      animation-timeline: scroll(root);
+      animation-range: 0 200vh;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+  }
+}
+
+@keyframes hero-lead-out {
+  to {
+    opacity: 0;
+    transform: translateY(-52px) scale(0.93);
+    filter: blur(8px);
+  }
+}
+
+@keyframes hero-trail-out {
+  to {
+    opacity: 0;
+    transform: translateY(-26px);
+    filter: blur(4px);
+  }
+}
+
+@keyframes hero-orbits-out {
+  to {
+    transform: translateY(90px) scale(1.35);
+    opacity: 0.15;
+  }
+}
+
+@keyframes ambient-drift {
+  to {
+    transform: translateY(-14vh) scale(1.12);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Neural orb — CSS 3D lattice behind the hero
+---------------------------------------------------------------------------- */
+.orb {
+  --orb-size: min(38rem, 46vw);
+  position: relative;
+  width: var(--orb-size);
+  height: var(--orb-size);
+  perspective: 1200px;
+  color: var(--color-accent);
+  pointer-events: none;
+}
+.orb__stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* Leans toward the pointer; Motion.astro writes --tx / --ty on <html>. */
+  transform: rotateX(calc(var(--orb-ty, 0) * -7deg)) rotateY(calc(var(--orb-tx, 0) * 9deg));
+  transition: transform 0.9s var(--ease-out-expo);
+  animation: orb-breathe 14s ease-in-out infinite alternate;
+}
+.orb__mesh {
+  position: absolute;
+  inset: 12%;
+  opacity: 0.35;
+  color: var(--color-cyan);
+  transform: translateZ(-40px);
+  animation: orb-mesh 30s linear infinite;
+}
+.orb__ring {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: var(--tilt);
+  animation: orb-spin var(--dur, 30s) linear infinite;
+}
+.orb__circle {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--color-accent) 42%, transparent);
+  box-shadow: 0 0 26px color-mix(in oklab, var(--color-accent) 18%, transparent);
+}
+.orb__node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  box-shadow: 0 0 14px var(--color-cyan);
+  /* Ride the ring: rotate to the angle, then push out to the radius. */
+  transform: rotate(var(--a)) translateX(calc(var(--orb-size) * 0.42));
+}
+.orb__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 32%;
+  height: 32%;
+  margin: -16% 0 0 -16%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 38%,
+    color-mix(in oklab, var(--color-accent) 85%, white),
+    color-mix(in oklab, var(--color-magenta) 70%, transparent) 55%,
+    transparent 72%
+  );
+  filter: blur(6px);
+  animation: orb-pulse 5.5s ease-in-out infinite;
+}
+
+@keyframes orb-spin {
+  to {
+    transform: var(--tilt) rotate(360deg);
+  }
+}
+@keyframes orb-mesh {
+  to {
+    transform: translateZ(-40px) rotate(360deg);
+  }
+}
+@keyframes orb-breathe {
+  to {
+    transform: rotateX(calc(var(--orb-ty, 0) * -7deg + 6deg))
+      rotateY(calc(var(--orb-tx, 0) * 9deg + 10deg));
+  }
+}
+@keyframes orb-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.09);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb__stage,
+  .orb__ring,
+  .orb__mesh,
+  .orb__core {
+    animation: none;
+  }
+}
+
+/* Sticky stack of featured projects.
+   Block flow on purpose: grid items can only stick inside their own row, so a
+   grid here would let each panel scroll away instead of parking on the pile. */
+.stack {
+  display: block;
+}
+.stack__item + .stack__item {
+  margin-top: 1.25rem;
+}
+.stack__card {
+  overflow: hidden;
+  /* Opaque: a parked panel has to fully hide the one underneath it. */
+  background: var(--color-surface);
+}
+
+@media (min-width: 768px) {
+  .stack__item {
+    position: sticky;
+    /* Each panel parks slightly lower, so a sliver of the one beneath shows. */
+    top: calc(5.5rem + var(--i) * 0.9rem);
+  }
+  /* Equal heights are what makes the deck work: a shorter panel parked on a
+     taller one would leave the lower card's bottom sticking out. */
+  .stack__card {
+    min-height: 29rem;
+    align-content: center;
+  }
+  /* This gap IS the scroll distance one panel holds before the next climbs
+     over it. Shrink it and the panels look piled up from the start. */
+  .stack__item + .stack__item {
+    margin-top: 58vh;
+  }
+  .stack__card {
+    box-shadow: 0 30px 70px -34px oklch(0% 0 0 / 0.6);
+  }
+  /* Extends the sticky containing block so the last panel holds for a beat
+     instead of being released the moment it parks. */
+  .stack {
+    padding-bottom: 55vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack__item {
+    position: static;
+  }
+  .stack__item + .stack__item {
+    margin-top: 1.25rem;
+  }
+}
+
+/* Pinned manifesto scene. */
+.manifesto {
+  position: relative;
+  height: 300vh;
+  view-timeline-name: --manifesto;
+}
+.manifesto__pin {
+  position: sticky;
+  top: 0;
+  display: grid;
+  height: 100vh;
+  align-content: center;
+}
+.manifesto__caption {
+  margin-bottom: 1.75rem;
+}
+.manifesto__text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  /* Scales with the viewport so every line stays on one row, phone to desktop. */
+  font-size: clamp(1.6rem, 4.4vw, 3.4rem);
+  line-height: 1.24;
+  letter-spacing: -0.03em;
+}
+.manifesto__line {
+  display: block;
+  white-space: nowrap;
+}
+.manifesto__word {
+  display: inline-block;
+  margin-right: 0.26em;
+  color: color-mix(in oklab, var(--color-text) 30%, transparent);
+  transition:
+    color 0.45s var(--ease-out-expo),
+    filter 0.45s var(--ease-out-expo);
+}
+/* JS fallback path (no scroll timelines). */
+.manifesto__word.is-lit {
+  color: var(--color-text);
+}
+.manifesto__line--accent .manifesto__word.is-lit {
+  color: var(--color-accent);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .manifesto__word {
+      transition: none;
+      animation-name: word-lit;
+      animation-timeline: --manifesto;
+      animation-fill-mode: both;
+      animation-timing-function: var(--ease-out-expo);
+    }
+    .manifesto__line--accent .manifesto__word {
+      animation-name: word-lit-accent;
+    }
+  }
+}
+
+@keyframes word-lit-accent {
+  from {
+    color: color-mix(in oklab, var(--color-text) 30%, transparent);
+    filter: blur(5px);
+    transform: translateY(0.12em);
+  }
+  to {
+    color: var(--color-accent);
+    filter: none;
+    transform: none;
+  }
+}
+
+@keyframes word-lit {
+  from {
+    color: color-mix(in oklab, var(--color-text) 30%, transparent);
+    filter: blur(5px);
+    transform: translateY(0.12em);
+  }
+  to {
+    color: var(--color-text);
+    filter: none;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .manifesto {
+    height: auto;
+    padding-block: 6rem;
+  }
+  .manifesto__pin {
+    position: static;
+    height: auto;
+  }
+  .manifesto__word {
+    color: var(--color-text);
+    filter: none;
+  }
+}
+
+@keyframes st-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.985);
+    filter: blur(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes st-parallax {
+  from {
+    transform: translateY(var(--st-shift, 40px));
+  }
+  to {
+    transform: translateY(calc(var(--st-shift, 40px) * -1));
+  }
+}
+
+@keyframes st-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes st-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 /* ----------------------------------------------------------------------------

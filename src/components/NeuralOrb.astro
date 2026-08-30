@@ -1,0 +1,47 @@
+---
+/**
+ * A neural lattice rendered in CSS 3D — no WebGL, no dependency.
+ * Three tilted rings orbit a glowing core, with nodes riding each ring and a
+ * flat SVG layer drawing the connections behind them. It turns on its own and
+ * leans toward the pointer (Motion.astro publishes --tx / --ty).
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+
+// Nodes are placed by angle so the markup stays declarative.
+const rings = [
+  { tilt: 'rotateX(72deg) rotateY(0deg)', dur: '26s', nodes: [0, 60, 130, 210, 290] },
+  { tilt: 'rotateX(62deg) rotateY(58deg)', dur: '34s', nodes: [20, 95, 175, 250, 320] },
+  { tilt: 'rotateX(58deg) rotateY(118deg)', dur: '44s', nodes: [40, 120, 200, 280] },
+];
+---
+
+<div class:list={['orb', className]} aria-hidden="true">
+  <div class="orb__stage">
+    <!-- Connection mesh: a flat plate behind the rings. -->
+    <svg class="orb__mesh" viewBox="-100 -100 200 200">
+      <g fill="none" stroke="currentColor" stroke-width="0.4">
+        <path d="M-70 -20 L-20 -62 L38 -48 L72 6 L34 62 L-30 58 L-70 -20 Z"></path>
+        <path d="M-70 -20 L38 -48 M-20 -62 L34 62 M72 6 L-30 58 M-20 -62 L72 6 M-70 -20 L34 62"
+        ></path>
+        <path d="M0 0 L-70 -20 M0 0 L-20 -62 M0 0 L38 -48 M0 0 L72 6 M0 0 L34 62 M0 0 L-30 58"
+        ></path>
+      </g>
+    </svg>
+
+    {
+      rings.map((ring) => (
+        <div class="orb__ring" style={`--tilt:${ring.tilt}; --dur:${ring.dur}`}>
+          <div class="orb__circle" />
+          {ring.nodes.map((angle) => (
+            <span class="orb__node" style={`--a:${angle}deg`} />
+          ))}
+        </div>
+      ))
+    }
+
+    <div class="orb__core"></div>
+  </div>
+</div>

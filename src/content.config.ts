@@ -33,9 +33,7 @@ const projects = defineCollection({
       order: z.number().default(0),
       role: z.string().optional(),
       stack: z.array(z.string()).default([]),
-      status: z
-        .enum(['shipped', 'finalist', 'award', 'wip', 'archived'])
-        .default('archived'),
+      status: z.enum(['shipped', 'finalist', 'award', 'wip', 'archived']).default('archived'),
       featured: z.boolean().default(false),
       cover: image().optional(),
       gallery: z.array(image()).default([]),

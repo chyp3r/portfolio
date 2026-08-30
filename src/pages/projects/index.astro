@@ -12,7 +12,11 @@ const projects = await getProjects(locale);
 
 <Base title={t('archive.title')} description={t('archive.subtitle')}>
   <div class="container-page py-16 sm:py-24">
-    <SectionHeading eyebrow={t('nav.work')} title={t('archive.title')} subtitle={t('archive.subtitle')} />
+    <SectionHeading
+      eyebrow={t('nav.work')}
+      title={t('archive.title')}
+      subtitle={t('archive.subtitle')}
+    />
     <ArchiveList projects={projects} />
   </div>
 </Base>

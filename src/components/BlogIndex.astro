@@ -9,11 +9,17 @@ const posts = await getPosts(locale);
 ---
 
 <div class="container-page py-16 sm:py-24">
-  <SectionHeading eyebrow={t('nav.writing')} title={t('writing.title')} subtitle={t('writing.subtitle')} />
+  <SectionHeading
+    eyebrow={t('nav.writing')}
+    title={t('writing.title')}
+    subtitle={t('writing.subtitle')}
+  />
 
   {
     posts.length === 0 ? (
-      <p class="mt-10 text-muted" data-reveal>{t('writing.empty')}</p>
+      <p class="mt-10 text-muted" data-reveal>
+        {t('writing.empty')}
+      </p>
     ) : (
       <ul class="mt-10 border-t border-border">
         {posts.map((post) => (

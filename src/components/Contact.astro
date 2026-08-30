@@ -13,20 +13,31 @@ const ctaHref = SITE.email ? `mailto:${SITE.email}` : linkedin;
 ---
 
 <section class="container-page py-20 sm:py-28">
-  <div data-reveal class="cta-card relative overflow-hidden rounded-[var(--radius-card)] p-8 sm:p-14">
+  <div
+    data-reveal
+    class="cta-card relative overflow-hidden rounded-[var(--radius-card)] p-8 sm:p-14"
+  >
     <div class="cta-card__glow" aria-hidden="true"></div>
     <div class="relative">
-      <SectionHeading id="contact" title={t('contact.title')} />
+      <SectionHeading id="contact" index={6} title={t('contact.title')} />
       <p class="mt-4 max-w-xl text-lg text-muted">{t('contact.body')}</p>
       <div class="mt-8 flex flex-wrap items-center gap-4">
         <a
           href={ctaHref}
           {...SITE.email ? {} : { target: '_blank', rel: 'noopener noreferrer' }}
-          class="btn btn-primary"
+          class="btn btn-primary magnetic"
         >
           {t('contact.email')}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M5 12h14m0 0-5-5m5 5-5 5" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14m0 0-5-5m5 5-5 5"></path>
           </svg>
         </a>
         <SocialLinks />

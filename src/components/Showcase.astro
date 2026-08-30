@@ -1,0 +1,92 @@
+---
+import type { ProjectEntry } from '../lib/content';
+import { slugOf } from '../lib/content';
+import { getLocale, useTranslations, localizePath } from '../i18n/utils';
+import type { UIKey } from '../i18n/ui';
+import StatusBadge from './StatusBadge.astro';
+import ProjectPlaceholder from './ProjectPlaceholder.astro';
+
+/**
+ * Featured projects presented as a sticky stack: each panel pins under the nav
+ * and the next one slides over it, so scrolling deals the cards onto a pile.
+ */
+interface Props {
+  projects: ProjectEntry[];
+}
+const { projects } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+---
+
+{
+  projects.length > 0 && (
+    <section class="container-page pt-16 sm:pt-24" aria-label={t('showcase.eyebrow')}>
+      <p class="eyebrow" data-reveal>
+        {t('showcase.eyebrow')}
+      </p>
+
+      <div class="stack mt-6">
+        {projects.map((project, i) => {
+          const slug = slugOf(project.id);
+          const href = localizePath(`/projects/${slug}`, locale);
+          const { data } = project;
+          return (
+            <article class="stack__item" style={`--i:${i}; --n:${projects.length}`}>
+              <a href={href} class="stack__card card group grid gap-0 md:grid-cols-2">
+                <div
+                  class="relative aspect-[16/10] overflow-hidden md:aspect-auto md:min-h-[22rem]"
+                  transition:name={`project-cover-${slug}`}
+                >
+                  <ProjectPlaceholder
+                    title={data.title}
+                    category={data.category}
+                    class="absolute inset-0 h-full w-full"
+                  />
+                </div>
+
+                <div class="relative z-[2] flex flex-col justify-center gap-5 p-7 sm:p-10">
+                  <div class="flex flex-wrap items-center gap-3">
+                    <span class="eyebrow">{t(`cat.${data.category}` as UIKey)}</span>
+                    <StatusBadge status={data.status} />
+                    <span class="font-mono text-xs text-muted">{data.year}</span>
+                  </div>
+
+                  <h3
+                    class="font-display text-2xl font-semibold leading-tight sm:text-4xl"
+                    transition:name={`project-title-${slug}`}
+                  >
+                    {data.title}
+                  </h3>
+
+                  <p class="max-w-prose text-muted">{data.summary}</p>
+
+                  <ul class="flex flex-wrap gap-2">
+                    {data.stack.slice(0, 5).map((tech) => (
+                      <li class="chip chip-sm">{tech}</li>
+                    ))}
+                  </ul>
+
+                  <span class="inline-flex items-center gap-2 text-sm font-semibold text-accent">
+                    {t('showcase.view')}
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="transition-transform duration-500 group-hover:translate-x-1"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14m0 0-5-5m5 5-5 5" />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  )
+}

@@ -19,6 +19,7 @@ const { data } = entry;
 const locale = getLocale(Astro.url);
 const t = useTranslations(locale);
 const { Content } = await render(entry);
+const slug = slugOf(entry.id);
 
 const linkLabels: Record<string, string> = {
   github: 'GitHub',
@@ -50,8 +51,18 @@ const workLd = {
       href={localizePath('/projects', locale)}
       class="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-text"
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path class="transition-transform duration-500 group-hover:-translate-x-0.5" d="M19 12H5M11 18l-6-6 6-6" />
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path
+          class="transition-transform duration-500 group-hover:-translate-x-0.5"
+          d="M19 12H5M11 18l-6-6 6-6"></path>
       </svg>
       {t('project.back')}
     </a>
@@ -63,7 +74,7 @@ const workLd = {
         </span>
         <StatusBadge status={data.status} />
       </div>
-      <h1 class="mt-4 text-4xl font-semibold sm:text-6xl">
+      <h1 class="mt-4 text-4xl font-semibold sm:text-6xl" transition:name={`project-title-${slug}`}>
         <span class="text-gradient">{data.title}</span>
       </h1>
       <p class="mt-5 text-lg text-muted">{data.summary}</p>
@@ -71,12 +82,13 @@ const workLd = {
 
     <div class="mt-12 grid gap-10 lg:grid-cols-[1fr_16rem]">
       <div class="order-2 lg:order-1">
-        <ProjectPlaceholder title={data.title} category={data.category} variant="hero" />
+        <div transition:name={`project-cover-${slug}`}>
+          <ProjectPlaceholder title={data.title} category={data.category} variant="hero" />
+        </div>
 
         <div class="prose-content mt-10" data-reveal>
           <Content />
         </div>
-
       </div>
 
       <aside class="order-1 lg:order-2">
@@ -118,7 +130,15 @@ const workLd = {
                       class="link-slide flex w-fit items-center gap-1.5 text-accent"
                     >
                       {linkLabels[key] ?? key}
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        aria-hidden="true"
+                      >
                         <path d="M7 17 17 7M8 7h9v9" />
                       </svg>
                     </a>
@@ -134,10 +154,7 @@ const workLd = {
     <nav class="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
       {
         prev && (
-          <a
-            href={localizePath(`/projects/${slugOf(prev.id)}`, locale)}
-            class="card group p-5"
-          >
+          <a href={localizePath(`/projects/${slugOf(prev.id)}`, locale)} class="card group p-5">
             <span class="font-mono text-xs text-muted">{t('project.prev')}</span>
             <span class="mt-1 block font-medium group-hover:text-accent">{prev.data.title}</span>
           </a>

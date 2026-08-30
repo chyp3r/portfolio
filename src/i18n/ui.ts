@@ -36,11 +36,22 @@ export const ui = {
     'hero.stat.first': 'AA Hackathon',
     'hero.stack': 'Working stack',
 
+    'manifesto.line.1': 'I design agentic AI.',
+    'manifesto.line.2': 'I put LLMs to work.',
+    'manifesto.line.3': 'I train vision models.',
+    'manifesto.line.4': 'And all of it ships.',
+    'manifesto.caption': 'The work, in four lines',
+
+    'showcase.eyebrow': 'Featured',
+    'showcase.view': 'Open case study',
+
     'work.title': 'Selected work',
     'work.subtitle':
       'Competition-grade AI research, production mobile apps and released games. Filter by focus.',
     'work.viewAll': 'View the full archive',
     'work.filter.all': 'All',
+    'work.more': 'Show more',
+    'work.remaining': 'remaining',
 
     'about.title': 'About',
     'about.body.1':
@@ -138,11 +149,22 @@ export const ui = {
     'hero.stat.first': 'AA Hackathon',
     'hero.stack': 'Kullandığım teknolojiler',
 
+    'manifesto.line.1': 'Agentic AI tasarlarım.',
+    'manifesto.line.2': 'LLM’leri işe koşarım.',
+    'manifesto.line.3': 'Görü modelleri eğitirim.',
+    'manifesto.line.4': 'Ve hepsi sahaya çıkar.',
+    'manifesto.caption': 'Dört satırda iş',
+
+    'showcase.eyebrow': 'Öne çıkanlar',
+    'showcase.view': 'Projeyi incele',
+
     'work.title': 'Seçili projeler',
     'work.subtitle':
       'Yarışma seviyesinde YZ araştırması, üretimdeki mobil uygulamalar ve yayınlanmış oyunlar. Odağa göre süz.',
     'work.viewAll': 'Tüm arşive git',
     'work.filter.all': 'Hepsi',
+    'work.more': 'Devamını gör',
+    'work.remaining': 'kaldı',
 
     'about.title': 'Hakkımda',
     'about.body.1':

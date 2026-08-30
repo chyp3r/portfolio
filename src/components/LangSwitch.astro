@@ -7,10 +7,6 @@ const target = otherLocale(locale);
 const href = switchLocalePath(Astro.url, target);
 ---
 
-<a
-  href={href}
-  hreflang={target}
-  class="pill-btn"
->
+<a href={href} hreflang={target} class="pill-btn">
   {t('lang.switch')}
 </a>

@@ -30,10 +30,9 @@ export function useTranslations(locale: Locale) {
  */
 export function localizePath(path: string, locale: Locale): string {
   const clean = '/' + path.replace(/^\/+/, '').replace(/\/+$/, '');
-  const withLocale =
-    locale === DEFAULT_LOCALE ? clean : `/${locale}${clean === '/' ? '' : clean}`;
+  const withLocale = locale === DEFAULT_LOCALE ? clean : `/${locale}${clean === '/' ? '' : clean}`;
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-  return (base + (withLocale === '/' ? '/' : withLocale)) || '/';
+  return base + (withLocale === '/' ? '/' : withLocale) || '/';
 }
 
 /** Same page, other language. Strips the base + a leading locale segment, then re-adds the target one. */
