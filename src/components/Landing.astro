@@ -1,0 +1,22 @@
+---
+import { getLocale } from '../i18n/utils';
+import { getFeaturedProjects } from '../lib/content';
+import Hero from './Hero.astro';
+import WorkSection from './WorkSection.astro';
+import About from './About.astro';
+import Timeline from './Timeline.astro';
+import SkillGroups from './SkillGroups.astro';
+import WritingTeaser from './WritingTeaser.astro';
+import Contact from './Contact.astro';
+
+const locale = getLocale(Astro.url);
+const featured = await getFeaturedProjects(locale);
+---
+
+<Hero />
+<WorkSection projects={featured} />
+<About />
+<Timeline />
+<SkillGroups />
+<WritingTeaser />
+<Contact />

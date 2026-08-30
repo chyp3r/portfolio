@@ -1,0 +1,63 @@
+---
+import { getLocale, useTranslations } from '../i18n/utils';
+import SectionHeading from './SectionHeading.astro';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+
+type Item = { period: string; en: [string, string]; tr: [string, string] };
+
+const items: Item[] = [
+  {
+    period: '2025',
+    en: ['1st place — Anadolu Agency Media Technologies Hackathon', 'Team lead & AI developer on ODAK, a GenAI news platform.'],
+    tr: ['Birincilik — Anadolu Ajansı Medya Teknolojileri Hackathonu', 'ODAK adlı GenAI haber platformunda takım lideri ve YZ geliştiricisi.'],
+  },
+  {
+    period: '2025',
+    en: ['Teknofest 2025 finalist ×2', 'AI in Health (ASCLEPIIIUS, stroke detection) and KKTC Agriculture (BabaMisu).'],
+    tr: ['Teknofest 2025 finalisti ×2', 'Sağlıkta YZ (ASCLEPIIIUS, inme tespiti) ve KKTC Tarım (BabaMisu).'],
+  },
+  {
+    period: '2025',
+    en: ['iOS Developer intern — OBSS Codecamp', 'Built Filmora, an MVVM SwiftUI app with TMDB + Gemini.'],
+    tr: ['iOS Geliştirici stajyeri — OBSS Codecamp', 'TMDB + Gemini kullanan MVVM SwiftUI uygulaması Filmora’yı geliştirdim.'],
+  },
+  {
+    period: '2024',
+    en: ['Best Presentation Award — Teknofest AI in Health', '3rd in Türkiye (report phase) with ASCLEPIIUS breast-cancer analysis.'],
+    tr: ['En İyi Sunum Ödülü — Teknofest Sağlıkta YZ', 'ASCLEPIIUS meme kanseri analizi ile rapor aşamasında Türkiye 3.’sü.'],
+  },
+  {
+    period: '2023 →',
+    en: ['Computer Engineering, Hacettepe University', 'R&D student club; ACM Hacettepe competition teams.'],
+    tr: ['Bilgisayar Mühendisliği, Hacettepe Üniversitesi', 'Ar-Ge öğrenci kulübü; ACM Hacettepe yarışma takımları.'],
+  },
+  {
+    period: '2022',
+    en: ['Deneyap Technology Workshops — graduate', 'Four years across AI, robotics, IoT, energy, mobile and design tracks.'],
+    tr: ['Deneyap Teknoloji Atölyeleri — mezun', 'YZ, robotik, IoT, enerji, mobil ve tasarım eğitimlerinde dört yıl.'],
+  },
+];
+---
+
+<section class="container-page py-20 sm:py-28">
+  <SectionHeading id="experience" title={t('experience.title')} />
+
+  <ol class="mt-10 space-y-0">
+    {
+      items.map((item) => {
+        const [title, detail] = item[locale];
+        return (
+          <li class="reveal grid grid-cols-[5rem_1fr] gap-x-5 border-t border-border py-5 sm:grid-cols-[7rem_1fr]">
+            <span class="pt-0.5 font-mono text-sm text-accent">{item.period}</span>
+            <div>
+              <p class="font-medium">{title}</p>
+              <p class="mt-1 text-sm text-muted">{detail}</p>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+</section>

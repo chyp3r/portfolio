@@ -1,0 +1,16 @@
+---
+import { getLocale, useTranslations, switchLocalePath, otherLocale } from '../i18n/utils';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const target = otherLocale(locale);
+const href = switchLocalePath(Astro.url, target);
+---
+
+<a
+  href={href}
+  hreflang={target}
+  class="inline-flex h-9 items-center rounded-full border border-border bg-surface px-3 text-sm font-medium text-muted transition-colors hover:border-accent hover:text-text"
+>
+  {t('lang.switch')}
+</a>

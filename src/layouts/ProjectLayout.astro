@@ -1,0 +1,187 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from './Base.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { SITE } from '../consts';
+import type { ProjectEntry } from '../lib/content';
+import { slugOf } from '../lib/content';
+import { getLocale, useTranslations, localizePath } from '../i18n/utils';
+import type { UIKey } from '../i18n/ui';
+
+interface Props {
+  entry: ProjectEntry;
+  prev?: ProjectEntry;
+  next?: ProjectEntry;
+}
+const { entry, prev, next } = Astro.props;
+const { data } = entry;
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const { Content } = await render(entry);
+
+const linkLabels: Record<string, string> = {
+  github: 'GitHub',
+  demo: 'Live demo',
+  playStore: 'Google Play',
+  appStore: 'App Store',
+  itch: 'itch.io',
+  report: locale === 'tr' ? 'Teknik rapor (PDF)' : 'Technical report (PDF)',
+  website: 'Website',
+};
+const links = Object.entries(data.links).filter(([, v]) => Boolean(v)) as [string, string][];
+
+const workLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: data.title,
+  abstract: data.summary,
+  inLanguage: locale,
+  dateCreated: String(data.year),
+  creator: { '@type': 'Person', name: SITE.name, url: SITE.url },
+};
+---
+
+<Base title={data.title} description={data.summary} type="article" image={SITE.ogImage}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(workLd)} />
+
+  <article class="container-page py-14 sm:py-20">
+    <a
+      href={localizePath('/projects', locale)}
+      class="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-text"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M19 12H5M11 18l-6-6 6-6" />
+      </svg>
+      {t('project.back')}
+    </a>
+
+    <header class="mt-8 max-w-3xl">
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          {t(`cat.${data.category}` as UIKey)}
+        </span>
+        <StatusBadge status={data.status} />
+      </div>
+      <h1 class="mt-4 text-3xl font-semibold sm:text-5xl">{data.title}</h1>
+      <p class="mt-5 text-lg text-muted">{data.summary}</p>
+    </header>
+
+    <div class="mt-12 grid gap-10 lg:grid-cols-[1fr_16rem]">
+      <div class="order-2 lg:order-1">
+        {
+          data.cover && (
+            <Image
+              src={data.cover}
+              alt={data.title}
+              widths={[600, 960, 1400]}
+              sizes="(min-width: 1024px) 720px, 100vw"
+              class="w-full rounded-[var(--radius-card)] border border-border bg-bg-soft"
+            />
+          )
+        }
+        <div class="prose-content mt-10">
+          <Content />
+        </div>
+
+        {
+          data.gallery.length > 0 && (
+            <section class="mt-14">
+              <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {t('project.gallery')}
+              </h2>
+              <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                {data.gallery.map((img, i) => (
+                  <Image
+                    src={img}
+                    alt={`${data.title} — ${i + 1}`}
+                    widths={[400, 700]}
+                    sizes="(min-width: 640px) 45vw, 90vw"
+                    class="w-full rounded-xl border border-border bg-bg-soft"
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+            </section>
+          )
+        }
+      </div>
+
+      <aside class="order-1 lg:order-2">
+        <dl class="space-y-5 rounded-[var(--radius-card)] border border-border bg-surface p-5 text-sm shadow-card">
+          {
+            data.role && (
+              <div>
+                <dt class="font-mono text-xs uppercase tracking-wide text-muted">{t('project.role')}</dt>
+                <dd class="mt-1">{data.role}</dd>
+              </div>
+            )
+          }
+          <div>
+            <dt class="font-mono text-xs uppercase tracking-wide text-muted">{t('project.year')}</dt>
+            <dd class="mt-1">{data.year}</dd>
+          </div>
+          {
+            data.stack.length > 0 && (
+              <div>
+                <dt class="font-mono text-xs uppercase tracking-wide text-muted">{t('project.stack')}</dt>
+                <dd class="mt-2 flex flex-wrap gap-1.5">
+                  {data.stack.map((s) => (
+                    <span class="rounded-md border border-border px-2 py-0.5 text-xs">{s}</span>
+                  ))}
+                </dd>
+              </div>
+            )
+          }
+          {
+            links.length > 0 && (
+              <div>
+                <dt class="font-mono text-xs uppercase tracking-wide text-muted">{t('project.links')}</dt>
+                <dd class="mt-2 space-y-1.5">
+                  {links.map(([key, href]) => (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex items-center gap-1.5 text-accent hover:underline"
+                    >
+                      {linkLabels[key] ?? key}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M7 17 17 7M8 7h9v9" />
+                      </svg>
+                    </a>
+                  ))}
+                </dd>
+              </div>
+            )
+          }
+        </dl>
+      </aside>
+    </div>
+
+    <nav class="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
+      {
+        prev && (
+          <a
+            href={localizePath(`/projects/${slugOf(prev.id)}`, locale)}
+            class="group rounded-xl border border-border bg-surface p-4 transition-colors hover:border-accent"
+          >
+            <span class="font-mono text-xs text-muted">{t('project.prev')}</span>
+            <span class="mt-1 block font-medium group-hover:text-accent">{prev.data.title}</span>
+          </a>
+        )
+      }
+      {
+        next && (
+          <a
+            href={localizePath(`/projects/${slugOf(next.id)}`, locale)}
+            class="group rounded-xl border border-border bg-surface p-4 text-right transition-colors hover:border-accent sm:col-start-2"
+          >
+            <span class="font-mono text-xs text-muted">{t('project.next')}</span>
+            <span class="mt-1 block font-medium group-hover:text-accent">{next.data.title}</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Base>

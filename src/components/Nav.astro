@@ -1,0 +1,73 @@
+---
+import { SITE } from '../consts';
+import { getLocale, useTranslations, localizePath } from '../i18n/utils';
+import LangSwitch from './LangSwitch.astro';
+import ThemeToggle from './ThemeToggle.tsx';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const home = localizePath('/', locale);
+
+const links = [
+  { href: `${home}#work`, label: t('nav.work') },
+  { href: `${home}#about`, label: t('nav.about') },
+  { href: `${home}#experience`, label: t('nav.experience') },
+  { href: `${home}#skills`, label: t('nav.skills') },
+  { href: localizePath('/blog', locale), label: t('nav.writing') },
+  { href: `${home}#contact`, label: t('nav.contact') },
+];
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-border/60 bg-bg/80 backdrop-blur supports-[backdrop-filter]:bg-bg/60"
+>
+  <nav class="container-page flex h-16 items-center justify-between gap-4" aria-label="Primary">
+    <a href={home} class="font-display text-sm font-semibold tracking-tight">
+      {SITE.name}<span class="text-accent">.</span>
+    </a>
+
+    <ul class="hidden items-center gap-6 md:flex">
+      {
+        links.map((l) => (
+          <li>
+            <a href={l.href} class="text-sm text-muted transition-colors hover:text-text">
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <LangSwitch />
+      <ThemeToggle client:load label={t('theme.toggle')} />
+
+      <details class="relative md:hidden">
+        <summary
+          class="inline-flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-full border border-border bg-surface text-text [&::-webkit-details-marker]:hidden"
+          aria-label="Menu"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18" />
+          </svg>
+        </summary>
+        <ul
+          class="absolute right-0 mt-2 w-48 rounded-xl border border-border bg-surface p-2 shadow-card"
+        >
+          {
+            links.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class="block rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-bg-soft hover:text-text"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+    </div>
+  </nav>
+</header>

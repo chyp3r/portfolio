@@ -1,0 +1,54 @@
+---
+import type { ProjectEntry } from '../lib/content';
+import { slugOf } from '../lib/content';
+import { getLocale, useTranslations, localizePath } from '../i18n/utils';
+import type { UIKey } from '../i18n/ui';
+import { CATEGORIES } from '../consts';
+
+interface Props {
+  projects: ProjectEntry[];
+}
+const { projects } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+
+const byCategory = CATEGORIES.map((cat) => ({
+  cat,
+  items: projects.filter((p) => p.data.category === cat),
+})).filter((g) => g.items.length > 0);
+---
+
+<div class="mt-12 space-y-14">
+  {
+    byCategory.map((group) => (
+      <section>
+        <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          {t(`cat.${group.cat}` as UIKey)}
+        </h2>
+        <ul class="mt-4 divide-y divide-border border-t border-border">
+          {group.items.map((p) => (
+            <li>
+              <a
+                href={localizePath(`/projects/${slugOf(p.id)}`, locale)}
+                class="group grid grid-cols-[3.5rem_1fr] items-baseline gap-4 py-4 sm:grid-cols-[4.5rem_1fr_auto]"
+              >
+                <span class="font-mono text-sm text-muted">{p.data.year}</span>
+                <span class="font-medium transition-colors group-hover:text-accent">
+                  {p.data.title}
+                  {p.data.featured && (
+                    <span class="ml-2 align-middle text-[11px] font-normal text-muted">
+                      ★ {t('project.featured')}
+                    </span>
+                  )}
+                </span>
+                <span class="col-span-2 text-sm text-muted sm:col-span-1 sm:text-right">
+                  {p.data.summary.length > 90 ? p.data.summary.slice(0, 90) + '…' : p.data.summary}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>

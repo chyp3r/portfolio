@@ -1,0 +1,18 @@
+---
+title: "Han-Yolo — Havadan Tespit"
+summary: "İHA görüntüleri için gerçek zamanlı nesne tespiti ve GPS'siz SLAM konumlandırma. Teknofest Ulaşımda Yapay Zekâ 2024."
+category: ai
+year: 2024
+order: 8
+role: "Bilgisayarlı görü geliştirici"
+stack: ["Python", "PyTorch", "TensorFlow", "YOLOv8", "SLAM", "Roboflow", "WSL"]
+status: finalist
+featured: true
+cover: ../../../assets/media/han-yolo.jpg
+links:
+  report: https://cdn.t3kys.com/media/upload/user_form_upload/2024/4/30/GzZXlFg468vZwhN4yjOcWCP1ng3z9hMf.pdf
+---
+
+İHA kameralarından gelen **havadan görüntülerde gerçek zamanlı nesne tespiti** üzerine çalıştım; değişken koşullardaki yüksek çözünürlüklü görüntüler için ayarlanmış, optimize bir **YOLOv8** omurgası kullandık.
+
+Ana fikir, nesne konumlarını yalnızca görsel veriden — GPS olmadan — belirleyen bir **SLAM** yaklaşımıydı; bu da sistemi afet bölgeleri gibi GPS'in çalışmadığı ortamlarda kullanılabilir kılıyor. Hat **PyTorch** ve **TensorFlow** karışımıydı; veri hazırlığı için **Roboflow**, geliştirme için **WSL** kullanıldı.

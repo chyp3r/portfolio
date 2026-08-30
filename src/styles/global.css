@@ -1,0 +1,205 @@
+@import 'tailwindcss';
+
+@import '@fontsource-variable/space-grotesk/index.css';
+@import '@fontsource-variable/inter/index.css';
+
+/* Dark mode is driven by a `data-theme` attribute set on <html> before paint
+   (see ThemeScript.astro). No media queries needed at the utility level. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ----------------------------------------------------------------------------
+   Design tokens — light theme is the base, dark overrides the same variables.
+---------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+
+  --color-bg: oklch(97% 0.01 265);
+  --color-bg-soft: oklch(94% 0.014 265);
+  --color-surface: oklch(99% 0.006 265);
+  --color-border: oklch(88% 0.02 265);
+  --color-text: oklch(24% 0.03 265);
+  --color-muted: oklch(48% 0.03 265);
+  --color-accent: oklch(55% 0.19 285);
+  --color-accent-contrast: oklch(98% 0.01 285);
+  --color-cyan: oklch(58% 0.13 210);
+
+  --radius-card: 1rem;
+  --shadow-card: 0 1px 2px oklch(20% 0.03 265 / 0.06), 0 8px 30px oklch(20% 0.03 265 / 0.06);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root[data-theme='dark'] {
+  --color-bg: oklch(15% 0.018 275);
+  --color-bg-soft: oklch(19% 0.022 275);
+  --color-surface: oklch(21% 0.025 275);
+  --color-border: oklch(32% 0.03 275);
+  --color-text: oklch(94% 0.012 275);
+  --color-muted: oklch(70% 0.025 275);
+  --color-accent: oklch(72% 0.15 285);
+  --color-accent-contrast: oklch(16% 0.03 285);
+  --color-cyan: oklch(78% 0.12 200);
+  --shadow-card: 0 1px 2px oklch(0% 0 0 / 0.4), 0 12px 40px oklch(0% 0 0 / 0.35);
+}
+
+/* ----------------------------------------------------------------------------
+   Base element styling
+---------------------------------------------------------------------------- */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    color-scheme: light;
+  }
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Bespoke classes (kept outside @layer so they always win over utilities)
+---------------------------------------------------------------------------- */
+.container-page {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-page {
+    padding-inline: 2rem;
+  }
+}
+
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 700px at 78% -8%, var(--color-accent) 0%, transparent 55%),
+    radial-gradient(900px 600px at 8% 12%, var(--color-cyan) 0%, transparent 50%);
+  opacity: 0.06;
+}
+:root[data-theme='dark'] .starfield {
+  opacity: 0.16;
+}
+.starfield::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.4px 1.4px at 20% 30%, currentColor 50%, transparent 50%),
+    radial-gradient(1.2px 1.2px at 65% 12%, currentColor 50%, transparent 50%),
+    radial-gradient(1.6px 1.6px at 85% 62%, currentColor 50%, transparent 50%),
+    radial-gradient(1px 1px at 42% 78%, currentColor 50%, transparent 50%),
+    radial-gradient(1.3px 1.3px at 12% 88%, currentColor 50%, transparent 50%),
+    radial-gradient(1.1px 1.1px at 52% 44%, currentColor 50%, transparent 50%);
+  color: var(--color-text);
+  opacity: 0.3;
+}
+
+.prose-content {
+  max-width: 68ch;
+}
+.prose-content > * + * {
+  margin-top: 1.1em;
+}
+.prose-content h2 {
+  margin-top: 2em;
+  font-size: 1.4rem;
+}
+.prose-content h3 {
+  margin-top: 1.6em;
+  font-size: 1.15rem;
+}
+.prose-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-content strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+.prose-content ul {
+  list-style: disc;
+  padding-left: 1.3em;
+}
+.prose-content code {
+  background: var(--color-bg-soft);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: reveal 0.7s var(--ease-out-expo) forwards;
+}
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

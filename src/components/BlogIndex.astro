@@ -1,0 +1,43 @@
+---
+import { getLocale, useTranslations, localizePath, formatDate } from '../i18n/utils';
+import { getPosts, slugOf } from '../lib/content';
+import SectionHeading from './SectionHeading.astro';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const posts = await getPosts(locale);
+---
+
+<div class="container-page py-16 sm:py-24">
+  <SectionHeading eyebrow={t('nav.writing')} title={t('writing.title')} subtitle={t('writing.subtitle')} />
+
+  {
+    posts.length === 0 ? (
+      <p class="mt-10 text-muted">{t('writing.empty')}</p>
+    ) : (
+      <ul class="mt-10 divide-y divide-border border-t border-border">
+        {posts.map((post) => (
+          <li>
+            <a
+              href={localizePath(`/blog/${slugOf(post.id)}`, locale)}
+              class="group block py-6"
+            >
+              <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                <h2 class="font-display text-xl font-semibold transition-colors group-hover:text-accent">
+                  {post.data.title}
+                </h2>
+                <time
+                  datetime={post.data.pubDate.toISOString()}
+                  class="font-mono text-xs text-muted"
+                >
+                  {formatDate(post.data.pubDate, locale)}
+                </time>
+              </div>
+              <p class="mt-2 max-w-2xl text-muted">{post.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>

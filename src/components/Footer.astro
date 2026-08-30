@@ -1,0 +1,32 @@
+---
+import { SITE } from '../consts';
+import { getLocale, useTranslations, localizePath } from '../i18n/utils';
+import SocialLinks from './SocialLinks.astro';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-border/60">
+  <div class="container-page flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p class="font-display text-sm font-semibold">{SITE.name}</p>
+      <p class="mt-1 text-sm text-muted">
+        © {year} ·
+        <a href={`mailto:${SITE.email}`} class="hover:text-text">{SITE.email}</a>
+      </p>
+      <p class="mt-1 text-xs text-muted/80">
+        <a href="https://github.com/chyp3r/chyp3r.github.io" class="hover:text-text"
+          >{t('footer.builtWith')}</a
+        >
+      </p>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href={localizePath('/blog', locale)} class="text-sm text-muted hover:text-text"
+        >{t('nav.writing')}</a
+      >
+      <SocialLinks />
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,49 @@
+---
+import { getLocale, useTranslations, localizePath, formatDate } from '../i18n/utils';
+import { getPosts } from '../lib/content';
+import { slugOf } from '../lib/content';
+import SectionHeading from './SectionHeading.astro';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+const posts = (await getPosts(locale)).slice(0, 3);
+---
+
+<section class="container-page py-20 sm:py-28">
+  <SectionHeading id="writing" title={t('writing.title')} subtitle={t('writing.subtitle')} />
+
+  {
+    posts.length === 0 ? (
+      <p class="mt-8 text-muted">{t('writing.empty')}</p>
+    ) : (
+      <ul class="mt-8 divide-y divide-border border-t border-border">
+        {posts.map((post) => (
+          <li class="reveal">
+            <a
+              href={localizePath(`/blog/${slugOf(post.id)}`, locale)}
+              class="group flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:justify-between"
+            >
+              <span class="font-medium transition-colors group-hover:text-accent">
+                {post.data.title}
+              </span>
+              <span class="font-mono text-xs text-muted">
+                {formatDate(post.data.pubDate, locale)}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    posts.length > 0 && (
+      <a
+        href={localizePath('/blog', locale)}
+        class="mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+      >
+        {t('writing.all')}
+      </a>
+    )
+  }
+</section>

@@ -1,0 +1,45 @@
+---
+import { getLocale, useTranslations } from '../i18n/utils';
+import SectionHeading from './SectionHeading.astro';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+
+const groups: { title: string; items: string[] }[] = [
+  {
+    title: t('skills.group.languages'),
+    items: ['Python', 'C / C++', 'Java', 'C#', 'Dart', 'Swift', 'R'],
+  },
+  {
+    title: t('skills.group.aiml'),
+    items: ['PyTorch', 'TensorFlow', 'YOLOv8', 'Vision Transformers', 'OpenCV', 'Albumentations', 'Roboflow', 'scikit-learn'],
+  },
+  {
+    title: t('skills.group.mobileGame'),
+    items: ['Flutter', 'SwiftUI', 'React Native', 'Firebase', 'Unity', 'Godot'],
+  },
+  {
+    title: t('skills.group.tools'),
+    items: ['Docker', 'Django', 'PostgreSQL / pgvector', 'React', 'Git', 'Linux / WSL'],
+  },
+];
+---
+
+<section class="container-page py-20 sm:py-28">
+  <SectionHeading id="skills" title={t('skills.title')} />
+
+  <div class="mt-10 grid gap-8 sm:grid-cols-2">
+    {
+      groups.map((g) => (
+        <div class="reveal">
+          <h3 class="font-mono text-xs uppercase tracking-[0.18em] text-muted">{g.title}</h3>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {g.items.map((item) => (
+              <li class="rounded-lg border border-border bg-surface px-3 py-1.5 text-sm">{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>

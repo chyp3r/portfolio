@@ -1,0 +1,16 @@
+---
+import { getLocale, useTranslations } from '../i18n/utils';
+import SectionHeading from './SectionHeading.astro';
+
+const locale = getLocale(Astro.url);
+const t = useTranslations(locale);
+---
+
+<section class="container-page py-20 sm:py-28">
+  <SectionHeading id="about" title={t('about.title')} />
+  <div class="prose-content reveal mt-8 text-[1.05rem]">
+    <p>{t('about.body.1')}</p>
+    <p>{t('about.body.2')}</p>
+    <p>{t('about.body.3')}</p>
+  </div>
+</section>

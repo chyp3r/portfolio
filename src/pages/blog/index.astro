@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import BlogIndex from '../../components/BlogIndex.astro';
+import { useTranslations, getLocale } from '../../i18n/utils';
+
+const t = useTranslations(getLocale(Astro.url));
+---
+
+<Base title={t('writing.title')} description={t('writing.subtitle')}>
+  <BlogIndex />
+</Base>
