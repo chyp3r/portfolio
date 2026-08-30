@@ -54,11 +54,6 @@ const href = localizePath(`/projects/${slugOf(project.id)}`, locale);
     <p class="line-clamp-3 text-sm text-muted">{data.summary}</p>
     <div class="mt-auto flex items-center gap-2 pt-1">
       <StatusBadge status={data.status} />
-      {
-        data.featured && (
-          <span class="text-[11px] font-medium text-muted">{t('project.featured')}</span>
-        )
-      }
     </div>
   </div>
 </article>

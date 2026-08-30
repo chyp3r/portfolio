@@ -21,10 +21,6 @@ export async function getProjects(locale: Locale): Promise<ProjectEntry[]> {
   );
 }
 
-export async function getFeaturedProjects(locale: Locale, limit = 12): Promise<ProjectEntry[]> {
-  return (await getProjects(locale)).filter((p) => p.data.featured).slice(0, limit);
-}
-
 /** Prev/next within the same locale, following the archive order. */
 export async function getProjectSiblings(entry: ProjectEntry) {
   const list = await getProjects(localeOf(entry.id));

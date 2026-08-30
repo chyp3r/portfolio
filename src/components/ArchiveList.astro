@@ -35,11 +35,6 @@ const byCategory = CATEGORIES.map((cat) => ({
                 <span class="font-mono text-sm text-muted">{p.data.year}</span>
                 <span class="font-medium transition-colors group-hover:text-accent">
                   {p.data.title}
-                  {p.data.featured && (
-                    <span class="ml-2 align-middle text-[11px] font-normal text-muted">
-                      ★ {t('project.featured')}
-                    </span>
-                  )}
                 </span>
                 <span class="col-span-2 text-sm text-muted sm:col-span-1 sm:text-right">
                   {p.data.summary.length > 90 ? p.data.summary.slice(0, 90) + '…' : p.data.summary}
